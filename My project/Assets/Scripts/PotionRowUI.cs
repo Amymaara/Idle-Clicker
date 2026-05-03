@@ -25,15 +25,25 @@ public class PotionRowUI : MonoBehaviour
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button apprenticeButton;
 
+    [Header("Unlock Settings")]
+    [SerializeField] private bool startsUnlocked = false;
+    [SerializeField] private double unlockCost = 100;
+    [SerializeField] private GameObject lockedOverlay;
+    [SerializeField] private TMP_Text unlockCostText;
+    [SerializeField] private Button unlockButton;
+
+    private bool isUnlocked;
     private int potionLevel = 1;
     private bool isProducing = false;
     private bool hasApprentice = false;
 
     private double CurrentProfit => baseProfit * potionLevel;
-    private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.18f, potionLevel);
+    private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.12f, potionLevel);
 
     private void Start()
     {
+        isUnlocked = startsUnlocked;
+
         upgradeButton.onClick.AddListener(UpgradePotion);
         apprenticeButton.onClick.AddListener(AssignApprentice);
 
@@ -48,9 +58,24 @@ public class PotionRowUI : MonoBehaviour
             StartProduction();
         }
     }
+    public void UnlockPotion()
+    {
+        if (isUnlocked) return;
 
+        if (CurrencyManager.Instance.CanAfford(unlockCost))
+        {
+            CurrencyManager.Instance.SpendCoins(unlockCost);
+            isUnlocked = true;
+
+            Debug.Log(potionName + " unlocked!");
+
+            UpdateUI();
+        }
+    }
     public void StartProduction()
     {
+        if (!isUnlocked) return;
+
         if (!isProducing)
         {
             StartCoroutine(ProducePotion());
@@ -85,6 +110,8 @@ public class PotionRowUI : MonoBehaviour
 
     public void UpgradePotion()
     {
+        if (!isUnlocked) return;
+
         double cost = CurrentUpgradeCost;
 
         if (CurrencyManager.Instance.CanAfford(cost))
@@ -109,5 +136,8 @@ public class PotionRowUI : MonoBehaviour
         levelText.text = "Level " + potionLevel;
         upgradeCostText.text = "Upgrade\n$" + CurrentUpgradeCost.ToString("F0");
         apprenticeText.text = hasApprentice ? "Assigned" : "No Apprentice";
+        lockedOverlay.SetActive(!isUnlocked);
+        unlockCostText.text = "Unlock\n$" + unlockCost.ToString("F0");
+        upgradeButton.interactable = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
     }
 }
