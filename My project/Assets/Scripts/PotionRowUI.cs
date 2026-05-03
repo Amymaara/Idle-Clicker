@@ -15,7 +15,7 @@ public class PotionRowUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private TMP_Text potionNameText;
     [SerializeField] private TMP_Text timerText;
-    [SerializeField] private TMP_Text timeNeededText;
+    [SerializeField] private TMP_Text profitText;
     [SerializeField] private TMP_Text amountMadeText;
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text upgradeCostText;
@@ -30,7 +30,7 @@ public class PotionRowUI : MonoBehaviour
     private bool hasApprentice = false;
 
     private double CurrentProfit => baseProfit * potionLevel;
-    private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.15f, potionLevel);
+    private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.18f, potionLevel);
 
     private void Start()
     {
@@ -83,7 +83,7 @@ public class PotionRowUI : MonoBehaviour
         UpdateUI();
     }
 
-    private void UpgradePotion()
+    public void UpgradePotion()
     {
         double cost = CurrentUpgradeCost;
 
@@ -104,7 +104,7 @@ public class PotionRowUI : MonoBehaviour
     private void UpdateUI()
     {
         potionNameText.text = potionName;
-        timeNeededText.text = "Time Needed: " + productionTime.ToString("F1") + "s";
+        profitText.text = "Makes: $" + CurrentProfit.ToString("F0");
         amountMadeText.text = "Amount Made: " + amountMade;
         levelText.text = "Level " + potionLevel;
         upgradeCostText.text = "Upgrade\n$" + CurrentUpgradeCost.ToString("F0");
