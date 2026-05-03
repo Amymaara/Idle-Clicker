@@ -42,6 +42,7 @@ public class PotionRowUI : MonoBehaviour
 
     private void Start()
     {
+        CurrencyManager.Instance.OnCurrencyChanged += UpdateUI;
         isUnlocked = startsUnlocked;
 
         upgradeButton.onClick.AddListener(UpgradePotion);
@@ -57,6 +58,13 @@ public class PotionRowUI : MonoBehaviour
         {
             StartProduction();
         }
+    }
+    
+
+    private void OnDisable()
+    {
+        if (CurrencyManager.Instance != null)
+            CurrencyManager.Instance.OnCurrencyChanged -= UpdateUI;
     }
     public void UnlockPotion()
     {

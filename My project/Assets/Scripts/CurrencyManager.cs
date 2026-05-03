@@ -1,13 +1,17 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class CurrencyManager : MonoBehaviour
 {
+    [SerializeField] private double startingCoins = 0;
     public static CurrencyManager Instance { get; private set; }
 
     [SerializeField] private TMP_Text coinText;
     private double currentCoins = 0;
     private double CurrentCoins => currentCoins;
+
+    public event Action OnCurrencyChanged;
 
     private void Awake()
     {
@@ -22,6 +26,7 @@ public class CurrencyManager : MonoBehaviour
 
     private void Start()
     {
+        currentCoins = startingCoins;
         UpdateCoinUI();
     }
     public void AddCoins(double amount)
@@ -45,9 +50,10 @@ public class CurrencyManager : MonoBehaviour
         UpdateCoinUI();
     }
 
-    private void UpdateCoinUI()
+    public void UpdateCoinUI()
     {
         coinText.text = "$" + currentCoins.ToString("F0");
+        OnCurrencyChanged?.Invoke();
     }
 }
 

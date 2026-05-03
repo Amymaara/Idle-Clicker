@@ -5,12 +5,11 @@ using UnityEngine.UI;
 public class CharmCard : MonoBehaviour
 {
     [Header("Charm Data")]
-    public string charmName;
-    public string description;
-    public double cost;
-
-    public double profitMultiplier = 1;
-    public float speedMultiplier = 1;
+    [SerializeField] private string charmName;
+    [SerializeField] private string description;
+    [SerializeField] private double cost;
+    [SerializeField] private double profitMultiplier = 1;
+    [SerializeField] private float speedMultiplier = 1;
 
     [Header("UI")]
     [SerializeField] private TMP_Text nameText;
@@ -18,28 +17,56 @@ public class CharmCard : MonoBehaviour
     [SerializeField] private TMP_Text statText;
     [SerializeField] private TMP_Text costText;
     [SerializeField] private Button buyButton;
+    [SerializeField] private Button assignButton;
+    [SerializeField] private TMP_Text assignButtonText;
 
     private bool isBought = false;
 
+    public bool IsBought => isBought;
+    public double ProfitMultiplier => profitMultiplier;
+    public float SpeedMultiplier => speedMultiplier;
+    public string CharmName => charmName;
+
     private void Start()
     {
+        CurrencyManager.Instance.OnCurrencyChanged += UpdateUI;
         buyButton.onClick.AddListener(BuyCharm);
+        assignButton.onClick.AddListener(ToggleAssignCharm);
         UpdateUI();
     }
 
-    private void BuyCharm()
+    private void OnDisable()
+    {
+        if (CurrencyManager.Instance != null)
+            CurrencyManager.Instance.OnCurrencyChanged -= UpdateUI;
+    }
+
+    public void BuyCharm()
     {
         if (isBought) return;
 
         if (CurrencyManager.Instance.CanAfford(cost))
         {
             CurrencyManager.Instance.SpendCoins(cost);
-
-            CharmManager.Instance.ApplyCharm(profitMultiplier, speedMultiplier);
-
             isBought = true;
             UpdateUI();
         }
+    }
+
+    public void ToggleAssignCharm()
+    {
+        if (!isBought) return;
+
+        if (CharmManager.Instance.IsCharmActive(this))
+        {
+            CharmManager.Instance.RemoveCharm(this);
+        }
+        else
+        {
+            CharmManager.Instance.AssignCharm(this);
+        }
+
+        UpdateUI();
     }
 
     private void UpdateUI()
@@ -47,9 +74,23 @@ public class CharmCard : MonoBehaviour
         nameText.text = charmName;
         descriptionText.text = description;
         statText.text = GetStatText();
-        costText.text = "$" + cost;
+        costText.text = isBought ? "Owned" : "$" + cost.ToString("F0");
 
         buyButton.interactable = !isBought;
+        assignButton.interactable = isBought;
+
+        if (!isBought)
+        {
+            assignButtonText.text = "Locked";
+        }
+        else if (CharmManager.Instance.IsCharmActive(this))
+        {
+            assignButtonText.text = "Remove";
+        }
+        else
+        {
+            assignButtonText.text = "Assign";
+        }
     }
 
     private string GetStatText()
@@ -60,6 +101,6 @@ public class CharmCard : MonoBehaviour
         if (speedMultiplier > 1)
             return "Speed x" + speedMultiplier;
 
-        return "";
+        return "Modifier";
     }
 }
