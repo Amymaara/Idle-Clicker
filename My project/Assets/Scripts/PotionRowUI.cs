@@ -36,6 +36,7 @@ public class PotionRowUI : MonoBehaviour
     private int potionLevel = 1;
     private bool isProducing = false;
     private bool hasApprentice = false;
+    private float apprenticeSpeedMultiplier = 1f;
 
     private double CurrentProfit => baseProfit * potionLevel * CharmManager.Instance.ProfitMultiplier;
     private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.12f, potionLevel);
@@ -66,6 +67,18 @@ public class PotionRowUI : MonoBehaviour
         if (CurrencyManager.Instance != null)
             CurrencyManager.Instance.OnCurrencyChanged -= UpdateUI;
     }
+
+    public void SetApprenticeAssigned(bool value)
+    {
+        hasApprentice = value;
+        UpdateUI();
+    }
+
+    public void SetApprenticeSpeedMultiplier(float multiplier)
+    {
+        apprenticeSpeedMultiplier = multiplier;
+    }
+
     public void UnlockPotion()
     {
         if (isUnlocked) return;
@@ -96,7 +109,8 @@ public class PotionRowUI : MonoBehaviour
 
         float timer = 0f;
 
-        float modifiedProductionTime = productionTime / CharmManager.Instance.SpeedMultiplier;
+        float modifiedProductionTime = productionTime /
+    (CharmManager.Instance.SpeedMultiplier * apprenticeSpeedMultiplier);
 
         while (timer < modifiedProductionTime)
         {
@@ -145,7 +159,7 @@ public class PotionRowUI : MonoBehaviour
         amountMadeText.text = "Amount Made: " + amountMade;
         levelText.text = "Level " + potionLevel;
         upgradeCostText.text = "Upgrade\n$" + CurrentUpgradeCost.ToString("F0");
-        apprenticeText.text = hasApprentice ? "Assigned" : "No Apprentice";
+        apprenticeText.text = hasApprentice ? "Apprentice\nAssigned" : "No\nApprentice";
         lockedOverlay.SetActive(!isUnlocked);
         unlockCostText.text = "Unlock\n$" + unlockCost.ToString("F0");
         upgradeButton.interactable = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
