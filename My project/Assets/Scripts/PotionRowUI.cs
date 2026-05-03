@@ -37,7 +37,7 @@ public class PotionRowUI : MonoBehaviour
     private bool isProducing = false;
     private bool hasApprentice = false;
 
-    private double CurrentProfit => baseProfit * potionLevel;
+    private double CurrentProfit => baseProfit * potionLevel * CharmManager.Instance.ProfitMultiplier;
     private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.12f, potionLevel);
 
     private void Start()
@@ -88,12 +88,14 @@ public class PotionRowUI : MonoBehaviour
 
         float timer = 0f;
 
-        while (timer < productionTime)
+        float modifiedProductionTime = productionTime / CharmManager.Instance.SpeedMultiplier;
+
+        while (timer < modifiedProductionTime)
         {
             timer += Time.deltaTime;
 
-            timerSlider.value = timer / productionTime;
-            timerText.text = timer.ToString("F1") + " / " + productionTime.ToString("F1") + "s";
+            timerSlider.value = timer / modifiedProductionTime;
+            timerText.text = timer.ToString("F1") + " / " + modifiedProductionTime.ToString("F1") + "s";
 
             yield return null;
         }
