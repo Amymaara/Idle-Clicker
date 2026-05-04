@@ -74,7 +74,7 @@ public class CharmCard : MonoBehaviour
         nameText.text = charmName;
         descriptionText.text = description;
         statText.text = GetStatText();
-        costText.text = isBought ? "Owned" : "$" + cost.ToString("F0");
+        costText.text = NumberFormatter.FormatMoney(cost);
 
         buyButton.interactable = !isBought;
         assignButton.interactable = isBought;

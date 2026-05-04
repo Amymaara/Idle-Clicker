@@ -3,23 +3,23 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum UpgradeBuyMode
+public enum ApprenticeBuyMode
 {
     One,
     Ten,
     Max
 }
 
-public class UpgradeBuyModeManager : MonoBehaviour
+public class ApprenticeBuyModeManager : MonoBehaviour
 {
-    public static UpgradeBuyModeManager Instance { get; private set; }
+    public static ApprenticeBuyModeManager Instance { get; private set; }
 
     public event Action OnBuyModeChanged;
 
     [SerializeField] private Button buyModeButton;
     [SerializeField] private TMP_Text buyModeButtonText;
 
-    public UpgradeBuyMode CurrentMode { get; private set; } = UpgradeBuyMode.One;
+    public ApprenticeBuyMode CurrentMode { get; private set; } = ApprenticeBuyMode.One;
 
     private void Awake()
     {
@@ -34,18 +34,12 @@ public class UpgradeBuyModeManager : MonoBehaviour
 
     public void CycleBuyMode()
     {
-        if (CurrentMode == UpgradeBuyMode.One)
-        {
-            CurrentMode = UpgradeBuyMode.Ten;
-        }
-        else if (CurrentMode == UpgradeBuyMode.Ten)
-        {
-            CurrentMode = UpgradeBuyMode.Max;
-        }
+        if (CurrentMode == ApprenticeBuyMode.One)
+            CurrentMode = ApprenticeBuyMode.Ten;
+        else if (CurrentMode == ApprenticeBuyMode.Ten)
+            CurrentMode = ApprenticeBuyMode.Max;
         else
-        {
-            CurrentMode = UpgradeBuyMode.One;
-        }
+            CurrentMode = ApprenticeBuyMode.One;
 
         UpdateUI();
         OnBuyModeChanged?.Invoke();
@@ -55,9 +49,9 @@ public class UpgradeBuyModeManager : MonoBehaviour
     {
         buyModeButtonText.text = CurrentMode switch
         {
-            UpgradeBuyMode.One => "Buy Mode: x1",
-            UpgradeBuyMode.Ten => "Buy Mode: x10",
-            UpgradeBuyMode.Max => "Buy Mode: Max",
+            ApprenticeBuyMode.One => "Buy Mode: x1",
+            ApprenticeBuyMode.Ten => "Buy Mode: x10",
+            ApprenticeBuyMode.Max => "Buy Mode: Max",
             _ => "Buy Mode: x1"
         };
     }

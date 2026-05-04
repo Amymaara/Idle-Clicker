@@ -39,8 +39,8 @@ public class CharmSlotUI : MonoBehaviour
             CharmManager.Instance.MaxSlots;
 
         unlockSlotButtonText.text =
-            "Unlock Slot\n$" +
-            CharmManager.Instance.SlotUnlockCost.ToString("F0");
+      "Unlock Slot\n" +
+      NumberFormatter.FormatMoney(CharmManager.Instance.SlotUnlockCost);
 
         unlockSlotButton.interactable =
             CharmManager.Instance.UnlockedSlots < CharmManager.Instance.MaxSlots &&

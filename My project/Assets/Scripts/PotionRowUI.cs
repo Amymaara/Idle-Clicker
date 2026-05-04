@@ -48,6 +48,11 @@ public class PotionRowUI : MonoBehaviour
 
     private void Start()
     {
+        if (UpgradeBuyModeManager.Instance != null)
+        {
+            UpgradeBuyModeManager.Instance.OnBuyModeChanged += UpdateUI;
+        }
+
         CurrencyManager.Instance.OnCurrencyChanged += UpdateUI;
         isUnlocked = startsUnlocked;
 
@@ -71,6 +76,57 @@ public class PotionRowUI : MonoBehaviour
     {
         if (CurrencyManager.Instance != null)
             CurrencyManager.Instance.OnCurrencyChanged -= UpdateUI;
+
+        if (UpgradeBuyModeManager.Instance != null)
+        {
+            UpgradeBuyModeManager.Instance.OnBuyModeChanged -= UpdateUI;
+        }
+    }
+
+    private int GetUpgradeAmount()
+    {
+        if (UpgradeBuyModeManager.Instance.CurrentMode == UpgradeBuyMode.One)
+            return 1;
+
+        if (UpgradeBuyModeManager.Instance.CurrentMode == UpgradeBuyMode.Ten)
+            return 10;
+
+        return GetMaxAffordableUpgrades();
+    }
+
+    private int GetMaxAffordableUpgrades()
+    {
+        int affordableAmount = 0;
+        double totalCost = 0;
+        int simulatedLevel = potionLevel;
+
+        while (true)
+        {
+            double nextCost = baseUpgradeCost * Mathf.Pow(1.18f, simulatedLevel);
+
+            if (!CurrencyManager.Instance.CanAfford(totalCost + nextCost))
+                break;
+
+            totalCost += nextCost;
+            simulatedLevel++;
+            affordableAmount++;
+        }
+
+        return affordableAmount;
+    }
+
+    private double GetBulkUpgradeCost(int amount)
+    {
+        double totalCost = 0;
+        int simulatedLevel = potionLevel;
+
+        for (int i = 0; i < amount; i++)
+        {
+            totalCost += baseUpgradeCost * Mathf.Pow(1.18f, simulatedLevel);
+            simulatedLevel++;
+        }
+
+        return totalCost;
     }
 
     public void IncreasePotionsMadePerRound()
@@ -147,14 +203,19 @@ public class PotionRowUI : MonoBehaviour
     {
         if (!isUnlocked) return;
 
-        double cost = CurrentUpgradeCost;
+        int upgradeAmount = GetUpgradeAmount();
 
-        if (CurrencyManager.Instance.CanAfford(cost))
-        {
-            CurrencyManager.Instance.SpendCoins(cost);
-            potionLevel++;
-            UpdateUI();
-        }
+        if (upgradeAmount <= 0) return;
+
+        double totalCost = GetBulkUpgradeCost(upgradeAmount);
+
+        if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
+
+        CurrencyManager.Instance.SpendCoins(totalCost);
+
+        potionLevel += upgradeAmount;
+
+        UpdateUI();
     }
 
     public void AssignApprentice()
@@ -166,13 +227,28 @@ public class PotionRowUI : MonoBehaviour
     private void UpdateUI()
     {
         potionNameText.text = potionName;
-        profitText.text = "Makes: $" + CurrentProfit.ToString("F0");
+        profitText.text = "Makes: " + NumberFormatter.FormatMoney(CurrentProfit);
         amountMadeText.text = "Potions: " + potionsMadePerRound;
         levelText.text = "Level " + potionLevel;
         upgradeCostText.text = "Upgrade\n$" + CurrentUpgradeCost.ToString("F0");
         apprenticeText.text = hasApprentice ? "Apprentice\nAssigned" : "No\nApprentice";
         lockedOverlay.SetActive(!isUnlocked);
-        unlockCostText.text = "Unlock\n$" + unlockCost.ToString("F0");
+
+        if (unlockCostText != null)
+        {
+            unlockCostText.text = "Locked\n" + NumberFormatter.FormatMoney(unlockCost);
+        }
+        int upgradeAmount = GetUpgradeAmount();
+        double bulkCost = GetBulkUpgradeCost(upgradeAmount);
+
+        upgradeCostText.text = upgradeAmount <= 0
+            ? "Upgrade\nN/A"
+            : "Upgrade x" + upgradeAmount + "\n" + NumberFormatter.FormatMoney(bulkCost);
+
+        upgradeButton.interactable =
+            isUnlocked &&
+            upgradeAmount > 0 &&
+            CurrencyManager.Instance.CanAfford(bulkCost);
         upgradeButton.interactable = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
     }
 }

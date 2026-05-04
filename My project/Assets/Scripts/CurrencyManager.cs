@@ -52,7 +52,7 @@ public class CurrencyManager : MonoBehaviour
 
     public void UpdateCoinUI()
     {
-        coinText.text = "$" + currentCoins.ToString("F0");
+        coinText.text = NumberFormatter.FormatMoney(currentCoins);
         OnCurrencyChanged?.Invoke();
     }
 }
