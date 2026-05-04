@@ -25,6 +25,10 @@ public class ApprenticeCard : MonoBehaviour
     [SerializeField] private TMP_Text buyButtonText;
     [SerializeField] private Button buyButton;
 
+    [Header("Locked Overlay")]
+    [SerializeField] private GameObject lockedOverlay;
+    [SerializeField] private TMP_Text lockedReasonText;
+    [SerializeField] private PulseButtons pulseButton;
     private int apprenticeLevel = 0;
 
     private double CurrentCost => baseCost * Mathf.Pow(costScaling, apprenticeLevel);
@@ -62,6 +66,7 @@ public class ApprenticeCard : MonoBehaviour
     public void BuyOrUpgradeApprentice()
     {
         if (targetPotion == null) return;
+        if (!targetPotion.IsUnlocked) return;
 
         int upgradeAmount = GetUpgradeAmount();
 
@@ -136,6 +141,20 @@ public class ApprenticeCard : MonoBehaviour
 
     public void UpdateUI()
     {
+        bool potionUnlocked = targetPotion != null && targetPotion.IsUnlocked;
+
+        Debug.Log(
+            gameObject.name +
+            " target potion: " +
+            (targetPotion != null ? targetPotion.GetPotionName() : "NULL") +
+            " | unlocked: " + potionUnlocked
+        );
+
+        if (lockedOverlay != null)
+        {
+            lockedOverlay.SetActive(!potionUnlocked);
+        }
+
         nameText.text = apprenticeName;
         descriptionText.text = description;
 
@@ -149,6 +168,16 @@ public class ApprenticeCard : MonoBehaviour
         stat2Text.text = "Speed";
         stat2IncreaseText.text = "x" + SpeedMultiplier.ToString("F1");
 
+        if (!potionUnlocked)
+        {
+            buyButtonText.text = "Potion\nLocked";
+            buyButton.interactable = false;
+            levelText.text = "Locked";
+            stat1IncreaseText.text = "Off";
+            stat2IncreaseText.text = "Locked";
+            return;
+        }
+
         int upgradeAmount = GetUpgradeAmount();
         double bulkCost = GetBulkUpgradeCost(upgradeAmount);
 
@@ -156,8 +185,15 @@ public class ApprenticeCard : MonoBehaviour
             ? "Buy\n" + NumberFormatter.FormatMoney(bulkCost)
             : "Upgrade x" + upgradeAmount + "\n" + NumberFormatter.FormatMoney(bulkCost);
 
-        buyButton.interactable =
-            upgradeAmount > 0 &&
-            CurrencyManager.Instance.CanAfford(bulkCost);
+        bool canAfford = CurrencyManager.Instance.CanAfford(bulkCost);
+        bool canUpgrade = upgradeAmount > 0;
+
+                buyButton.interactable = canUpgrade && canAfford;
+
+        buyButton.image.color = (canUpgrade && canAfford)
+            ? new Color(0.6f, 1f, 0.6f)   // green
+            : new Color(0.6f, 0.6f, 0.6f); // grey
+
+        pulseButton.SetPulse(canUpgrade && canAfford);
     }
 }

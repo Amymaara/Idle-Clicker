@@ -24,6 +24,10 @@ public class PotionRowUI : MonoBehaviour
     [SerializeField] private Slider timerSlider;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button apprenticeButton;
+    [SerializeField] private PulseButtons pulseButton;
+
+    [SerializeField] private FloatingMoneyTextUI floatingMoneyPrefab;
+    [SerializeField] private Transform floatingMoneySpawnPoint;
 
     [Header("Unlock Settings")]
     [SerializeField] private bool startsUnlocked = false;
@@ -36,6 +40,7 @@ public class PotionRowUI : MonoBehaviour
     [SerializeField] private int potionsMadePerRound = 1;
 
     public int PotionLevel => potionLevel;
+    public bool IsUnlocked => isUnlocked || startsUnlocked;
     public int PotionsMadePerRound => potionsMadePerRound;
     private bool isUnlocked;
     private int potionLevel = 1;
@@ -46,6 +51,11 @@ public class PotionRowUI : MonoBehaviour
     private double CurrentProfit => baseProfit * potionLevel * potionsMadePerRound * CharmManager.Instance.ProfitMultiplier;
     private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.12f, potionLevel);
 
+    private void Awake()
+    {
+        isUnlocked = startsUnlocked;
+    }
+
     private void Start()
     {
         if (UpgradeBuyModeManager.Instance != null)
@@ -54,7 +64,6 @@ public class PotionRowUI : MonoBehaviour
         }
 
         CurrencyManager.Instance.OnCurrencyChanged += UpdateUI;
-        isUnlocked = startsUnlocked;
 
         upgradeButton.onClick.AddListener(UpgradePotion);
         apprenticeButton.onClick.AddListener(AssignApprentice);
@@ -70,7 +79,7 @@ public class PotionRowUI : MonoBehaviour
             StartProduction();
         }
     }
-    
+
 
     private void OnDisable()
     {
@@ -81,6 +90,11 @@ public class PotionRowUI : MonoBehaviour
         {
             UpgradeBuyModeManager.Instance.OnBuyModeChanged -= UpdateUI;
         }
+    }
+
+    public string GetPotionName()
+    {
+        return potionName;
     }
 
     private int GetUpgradeAmount()
@@ -189,7 +203,10 @@ public class PotionRowUI : MonoBehaviour
             yield return null;
         }
 
-        CurrencyManager.Instance.AddCoins(CurrentProfit);
+        double earnedAmount = CurrentProfit;
+
+        CurrencyManager.Instance.AddCoins(earnedAmount);
+        SpawnFloatingMoney(earnedAmount);
 
         timerSlider.value = 0;
         timerText.text = productionTime.ToString("F1") + "s";
@@ -198,7 +215,22 @@ public class PotionRowUI : MonoBehaviour
 
         UpdateUI();
     }
+    private void SpawnFloatingMoney(double amount)
+    {
+        if (floatingMoneyPrefab == null || floatingMoneySpawnPoint == null)
+            return;
 
+        Vector3 randomOffset = new Vector3(Random.Range(-20f, 20f), 0f, 0f);
+
+        FloatingMoneyTextUI floatingText = Instantiate(
+            floatingMoneyPrefab,
+            floatingMoneySpawnPoint.position + randomOffset,
+            Quaternion.identity,
+            floatingMoneySpawnPoint.parent
+                );
+
+        floatingText.Setup(amount);
+    }
     public void UpgradePotion()
     {
         if (!isUnlocked) return;
@@ -241,14 +273,23 @@ public class PotionRowUI : MonoBehaviour
         int upgradeAmount = GetUpgradeAmount();
         double bulkCost = GetBulkUpgradeCost(upgradeAmount);
 
-        upgradeCostText.text = upgradeAmount <= 0
+        bool canUpgrade = upgradeAmount > 0;
+        bool canAfford = canUpgrade && CurrencyManager.Instance.CanAfford(bulkCost);
+
+        upgradeCostText.text = !canUpgrade
             ? "Upgrade\nN/A"
             : "Upgrade x" + upgradeAmount + "\n" + NumberFormatter.FormatMoney(bulkCost);
 
         upgradeButton.interactable =
             isUnlocked &&
-            upgradeAmount > 0 &&
-            CurrencyManager.Instance.CanAfford(bulkCost);
-        upgradeButton.interactable = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
+            canUpgrade &&
+            canAfford;
+
+        upgradeButton.image.color =
+            isUnlocked && canUpgrade && canAfford
+                ? new Color(0.6f, 1f, 0.6f)
+                : new Color(0.6f, 0.6f, 0.6f);
+
+        pulseButton.SetPulse(canUpgrade && canAfford);
     }
 }

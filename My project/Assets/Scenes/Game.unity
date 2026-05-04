@@ -1929,6 +1929,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &572659591 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7999726137930875909, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+  m_PrefabInstance: {fileID: 351965086}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac54a37f0cc24764da96d3708add9277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -5894,6 +5905,7 @@ MonoBehaviour:
   charmSlot1Text: {fileID: 1816431054}
   charmSlot2Text: {fileID: 738354607}
   charmSlot3Text: {fileID: 1193287028}
+  pulseButton: {fileID: 572659591}
 --- !u!1 &1661743633
 GameObject:
   m_ObjectHideFlags: 0
@@ -7211,6 +7223,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 856102025}
     m_Modifications:
+    - target: {fileID: 1202976087765458027, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3603463664532174609, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: amountMade
       value: 1
@@ -7318,6 +7334,10 @@ PrefabInstance:
     - target: {fileID: 5182318688578402821, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5428310152425071368, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: moneyText
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5996295805644110679, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: m_Name

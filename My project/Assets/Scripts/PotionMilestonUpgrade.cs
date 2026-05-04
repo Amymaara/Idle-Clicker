@@ -95,5 +95,11 @@ public class PotionMilestonUpgrade : MonoBehaviour
         upgradeButton.interactable =
             ready &&
             CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
+
+        bool canAfford = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
+
+        upgradeButton.image.color = ready && canAfford
+            ? new Color(0.6f, 1f, 0.6f)
+            : new Color(0.6f, 0.6f, 0.6f);
     }
 }

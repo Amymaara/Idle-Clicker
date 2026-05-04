@@ -543,6 +543,41 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1202976087765458027
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1140830253401580843}
+  m_Layer: 5
+  m_Name: FloatingMoneySpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1140830253401580843
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202976087765458027}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5182318688578402821}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -110, y: 30}
+  m_SizeDelta: {x: 100, y: 40}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1559016735765890535
 GameObject:
   m_ObjectHideFlags: 0
@@ -1729,6 +1764,9 @@ MonoBehaviour:
   timerSlider: {fileID: 445876264261671538}
   upgradeButton: {fileID: 4722377739304641537}
   apprenticeButton: {fileID: 3094457207297082241}
+  pulseButton: {fileID: 3869233059002451175}
+  floatingMoneyPrefab: {fileID: 6835560641992177620, guid: 33811296febfb1847a3f3d8df3b77ccc, type: 3}
+  floatingMoneySpawnPoint: {fileID: 1140830253401580843}
   startsUnlocked: 1
   unlockCost: 100
   lockedOverlay: {fileID: 9130800126543128009}
@@ -1822,6 +1860,7 @@ GameObject:
   - component: {fileID: 7307767707696629168}
   - component: {fileID: 1389977675493797873}
   - component: {fileID: 8042213640223084404}
+  - component: {fileID: 3869233059002451175}
   m_Layer: 5
   m_Name: UnlockButton
   m_TagString: Untagged
@@ -1943,6 +1982,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3869233059002451175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5919089094783427626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac54a37f0cc24764da96d3708add9277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetButton: {fileID: 0}
+  pulseSpeed: 3
+  pulseAmount: 0.06
 --- !u!1 &5996295805644110679
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,6 +2035,7 @@ RectTransform:
   - {fileID: 1613519185147874568}
   - {fileID: 4322442627584005326}
   - {fileID: 4344690821669408305}
+  - {fileID: 1140830253401580843}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

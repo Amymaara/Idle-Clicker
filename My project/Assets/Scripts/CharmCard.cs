@@ -20,6 +20,8 @@ public class CharmCard : MonoBehaviour
     [SerializeField] private Button assignButton;
     [SerializeField] private TMP_Text assignButtonText;
 
+    [SerializeField] private PulseButtons pulseButton;
+
     private bool isBought = false;
 
     public bool IsBought => isBought;
@@ -76,8 +78,14 @@ public class CharmCard : MonoBehaviour
         statText.text = GetStatText();
         costText.text = NumberFormatter.FormatMoney(cost);
 
+        bool canAfford = CurrencyManager.Instance.CanAfford(cost);
+
         buyButton.interactable = !isBought;
         assignButton.interactable = isBought;
+
+        buyButton.image.color = !isBought && canAfford
+    ? new Color(0.6f, 1f, 0.6f)
+    : new Color(0.6f, 0.6f, 0.6f);
 
         if (!isBought)
         {
@@ -91,6 +99,8 @@ public class CharmCard : MonoBehaviour
         {
             assignButtonText.text = "Assign";
         }
+
+        pulseButton.SetPulse(!isBought && canAfford);
     }
 
     private string GetStatText()

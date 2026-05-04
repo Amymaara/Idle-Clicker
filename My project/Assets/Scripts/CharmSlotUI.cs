@@ -14,6 +14,8 @@ public class CharmSlotUI : MonoBehaviour
     [SerializeField] private TMP_Text charmSlot2Text;
     [SerializeField] private TMP_Text charmSlot3Text;
 
+    [SerializeField] private PulseButtons pulseButton;
+
     private void Start()
     {
         unlockSlotButton.onClick.AddListener(UnlockSlot);
@@ -33,6 +35,9 @@ public class CharmSlotUI : MonoBehaviour
 
     private void UpdateUI()
     {
+        bool canAffordSlot =
+    CurrencyManager.Instance.CanAfford(CharmManager.Instance.SlotUnlockCost);
+
         slotsAvailableText.text =
             "Charm Slots\nAvailable\n" +
             CharmManager.Instance.UnlockedSlots + " / " +
@@ -49,6 +54,15 @@ public class CharmSlotUI : MonoBehaviour
         UpdateSlotText(charmSlot1Text, 0);
         UpdateSlotText(charmSlot2Text, 1);
         UpdateSlotText(charmSlot3Text, 2);
+
+        unlockSlotButton.image.color =
+    CharmManager.Instance.UnlockedSlots < CharmManager.Instance.MaxSlots && canAffordSlot
+        ? new Color(0.6f, 1f, 0.6f)
+        : new Color(0.6f, 0.6f, 0.6f);
+
+        pulseButton.SetPulse(
+    CharmManager.Instance.UnlockedSlots < CharmManager.Instance.MaxSlots && canAffordSlot
+);
     }
 
     private void UpdateSlotText(TMP_Text slotText, int index)
