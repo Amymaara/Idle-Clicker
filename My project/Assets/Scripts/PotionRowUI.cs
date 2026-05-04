@@ -32,13 +32,18 @@ public class PotionRowUI : MonoBehaviour
     [SerializeField] private TMP_Text unlockCostText;
     [SerializeField] private Button unlockButton;
 
+    [Header("Milestone Upgrade Settings")]
+    [SerializeField] private int potionsMadePerRound = 1;
+
+    public int PotionLevel => potionLevel;
+    public int PotionsMadePerRound => potionsMadePerRound;
     private bool isUnlocked;
     private int potionLevel = 1;
     private bool isProducing = false;
     private bool hasApprentice = false;
     private float apprenticeSpeedMultiplier = 1f;
 
-    private double CurrentProfit => baseProfit * potionLevel * CharmManager.Instance.ProfitMultiplier;
+    private double CurrentProfit => baseProfit * potionLevel * potionsMadePerRound * CharmManager.Instance.ProfitMultiplier;
     private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.12f, potionLevel);
 
     private void Start()
@@ -66,6 +71,12 @@ public class PotionRowUI : MonoBehaviour
     {
         if (CurrencyManager.Instance != null)
             CurrencyManager.Instance.OnCurrencyChanged -= UpdateUI;
+    }
+
+    public void IncreasePotionsMadePerRound()
+    {
+        potionsMadePerRound++;
+        UpdateUI();
     }
 
     public void SetApprenticeAssigned(bool value)
@@ -156,7 +167,7 @@ public class PotionRowUI : MonoBehaviour
     {
         potionNameText.text = potionName;
         profitText.text = "Makes: $" + CurrentProfit.ToString("F0");
-        amountMadeText.text = "Amount Made: " + amountMade;
+        amountMadeText.text = "Potions: " + potionsMadePerRound;
         levelText.text = "Level " + potionLevel;
         upgradeCostText.text = "Upgrade\n$" + CurrentUpgradeCost.ToString("F0");
         apprenticeText.text = hasApprentice ? "Apprentice\nAssigned" : "No\nApprentice";
