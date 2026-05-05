@@ -48,6 +48,7 @@ public class PotionRowUI : MonoBehaviour
     private bool isProducing = false;
     private bool hasApprentice = false;
     private float apprenticeSpeedMultiplier = 1f;
+    private bool hasShownFirstEarningsTutorial = false;
 
     private double CurrentProfit =>
     baseProfit *
@@ -192,6 +193,11 @@ public class PotionRowUI : MonoBehaviour
     {
         if (!isUnlocked) return;
 
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.HideTutorial();
+        }
+
         if (!isProducing)
         {
             StartCoroutine(ProducePotion());
@@ -225,6 +231,16 @@ public class PotionRowUI : MonoBehaviour
         CurrencyManager.Instance.AddCoins(earnedAmount);
         CurrencyManager.Instance.AddCoins(earnedAmount);
         SpawnFloatingMoney(earnedAmount);
+
+        if (!hasShownFirstEarningsTutorial && potionName == "Basic Brew")
+        {
+            hasShownFirstEarningsTutorial = true;
+
+            TutorialManager.Instance.ShowTutorial(
+                "Each brew earns coins. Use them to upgrade your potions.",
+                upgradeButton.GetComponent<RectTransform>()
+            );
+        }
 
         timerSlider.value = 0;
         timerText.text = productionTime.ToString("F1") + "s";
@@ -264,6 +280,11 @@ public class PotionRowUI : MonoBehaviour
         if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
 
         CurrencyManager.Instance.SpendCoins(totalCost);
+
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.HideTutorial();
+        }
 
         potionLevel += upgradeAmount;
 
