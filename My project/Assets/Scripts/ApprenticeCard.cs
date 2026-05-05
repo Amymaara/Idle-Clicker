@@ -24,6 +24,7 @@ public class ApprenticeCard : MonoBehaviour
     [SerializeField] private TMP_Text stat2IncreaseText;
     [SerializeField] private TMP_Text buyButtonText;
     [SerializeField] private Button buyButton;
+    [SerializeField] private TMP_Text upgradePreviewText;
 
     [Header("Locked Overlay")]
     [SerializeField] private GameObject lockedOverlay;
@@ -62,7 +63,11 @@ public class ApprenticeCard : MonoBehaviour
         if (ApprenticeBuyModeManager.Instance != null)
             ApprenticeBuyModeManager.Instance.OnBuyModeChanged -= UpdateUI;
     }
-
+    private float GetSpeedAtLevel(int level)
+    {
+        if (level <= 0) return 1f;
+        return 1f + ((level - 1) * speedIncreasePerLevel);
+    }
     public void BuyOrUpgradeApprentice()
     {
         if (targetPotion == null) return;
@@ -77,6 +82,7 @@ public class ApprenticeCard : MonoBehaviour
         if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
 
         CurrencyManager.Instance.SpendCoins(totalCost);
+        SoundManager.Instance.PlaySound(SoundType.Upgrade);
 
         // First purchase unlocks apprentice
         if (apprenticeLevel == 0)
@@ -181,6 +187,22 @@ public class ApprenticeCard : MonoBehaviour
         int upgradeAmount = GetUpgradeAmount();
         double bulkCost = GetBulkUpgradeCost(upgradeAmount);
 
+        if (upgradePreviewText != null)
+        {
+            if (targetPotion == null || !targetPotion.IsUnlocked || upgradeAmount <= 0)
+            {
+                upgradePreviewText.text = "";
+            }
+            else
+            {
+                float currentSpeed = GetSpeedAtLevel(apprenticeLevel);
+                float previewSpeed = GetSpeedAtLevel(apprenticeLevel + upgradeAmount);
+
+                upgradePreviewText.text =
+                    "> x" + previewSpeed.ToString("F1");
+            }
+        }
+
         buyButtonText.text = apprenticeLevel == 0
             ? "Buy\n" + NumberFormatter.FormatMoney(bulkCost)
             : "Upgrade x" + upgradeAmount + "\n" + NumberFormatter.FormatMoney(bulkCost);
@@ -194,6 +216,17 @@ public class ApprenticeCard : MonoBehaviour
             ? new Color(0.6f, 1f, 0.6f)   // green
             : new Color(0.6f, 0.6f, 0.6f); // grey
 
-        pulseButton.SetPulse(canUpgrade && canAfford);
+       // pulseButton.SetPulse(canUpgrade && canAfford);
+    }
+
+    public bool IsAvailableToBuy()
+    {
+        if (targetPotion == null) return false;
+        if (!targetPotion.IsUnlocked) return false;
+
+        int upgradeAmount = GetUpgradeAmount();
+        double bulkCost = GetBulkUpgradeCost(upgradeAmount);
+
+        return upgradeAmount > 0 && CurrencyManager.Instance.CanAfford(bulkCost);
     }
 }

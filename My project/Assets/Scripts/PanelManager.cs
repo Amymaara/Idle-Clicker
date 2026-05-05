@@ -58,4 +58,5 @@ public class PanelManager : MonoBehaviour
         panel.interactable = false;
         panel.blocksRaycasts = false;
     }
+
 }

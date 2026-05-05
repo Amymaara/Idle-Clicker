@@ -378,7 +378,7 @@ MonoBehaviour:
   buyButton: {fileID: 6098664704176698867}
   assignButton: {fileID: 7446069978518892591}
   assignButtonText: {fileID: 3967484050986079180}
-  pulseButton: {fileID: 8688611620194749367}
+  pulseButton: {fileID: 0}
 --- !u!1 &5578429813554076590
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,7 +663,7 @@ GameObject:
   - component: {fileID: 3039607784489931808}
   - component: {fileID: 4634459746357648073}
   - component: {fileID: 7446069978518892591}
-  - component: {fileID: 8688611620194749367}
+  - component: {fileID: 4379057145899110748}
   m_Layer: 5
   m_Name: AssignButton
   m_TagString: Untagged
@@ -773,7 +773,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8688611620194749367
+--- !u!114 &4379057145899110748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -782,12 +782,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6375786073176333620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac54a37f0cc24764da96d3708add9277, type: 3}
+  m_Script: {fileID: 11500000, guid: 776509f9d9288844bbc6e7b962ff7c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetButton: {fileID: 0}
-  pulseSpeed: 3
-  pulseAmount: 0.06
+  hoverScale: 1.05
+  pressScale: 0.92
+  speed: 10
 --- !u!1 &7310084239395575440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1011,7 @@ GameObject:
   - component: {fileID: 2159315786974069991}
   - component: {fileID: 2839601749021497974}
   - component: {fileID: 6098664704176698867}
-  - component: {fileID: 7999726137930875909}
+  - component: {fileID: 1722114208553797987}
   m_Layer: 0
   m_Name: BuyButton
   m_TagString: Untagged
@@ -1121,19 +1121,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2812249323473335852}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2543284339175854073}
+        m_TargetAssemblyTypeName: CharmCard, Assembly-CSharp
+        m_MethodName: BuyCharm
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7999726137930875909
+--- !u!114 &1722114208553797987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1142,9 +1142,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8991462708274169981}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac54a37f0cc24764da96d3708add9277, type: 3}
+  m_Script: {fileID: 11500000, guid: 776509f9d9288844bbc6e7b962ff7c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetButton: {fileID: 0}
-  pulseSpeed: 3
-  pulseAmount: 0.06
+  hoverScale: 1.05
+  pressScale: 0.92
+  speed: 10

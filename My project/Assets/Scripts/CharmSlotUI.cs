@@ -60,10 +60,7 @@ public class CharmSlotUI : MonoBehaviour
         ? new Color(0.6f, 1f, 0.6f)
         : new Color(0.6f, 0.6f, 0.6f);
 
-        pulseButton.SetPulse(
-    CharmManager.Instance.UnlockedSlots < CharmManager.Instance.MaxSlots && canAffordSlot
-);
-    }
+     }
 
     private void UpdateSlotText(TMP_Text slotText, int index)
     {

@@ -100,7 +100,7 @@ public class CharmCard : MonoBehaviour
             assignButtonText.text = "Assign";
         }
 
-        pulseButton.SetPulse(!isBought && canAfford);
+       // pulseButton.SetPulse(!isBought && canAfford);
     }
 
     private string GetStatText()
@@ -112,5 +112,10 @@ public class CharmCard : MonoBehaviour
             return "Speed x" + speedMultiplier;
 
         return "Modifier";
+    }
+
+    public bool IsAvailableToBuy()
+    {
+        return !IsBought && CurrencyManager.Instance.CanAfford(cost);
     }
 }

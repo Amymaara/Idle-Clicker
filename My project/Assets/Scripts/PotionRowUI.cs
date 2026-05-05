@@ -20,6 +20,7 @@ public class PotionRowUI : MonoBehaviour
     [SerializeField] private TMP_Text levelText;
     [SerializeField] private TMP_Text upgradeCostText;
     [SerializeField] private TMP_Text apprenticeText;
+    [SerializeField] private TMP_Text upgradePreviewText;
 
     [SerializeField] private Slider timerSlider;
     [SerializeField] private Button upgradeButton;
@@ -91,7 +92,10 @@ public class PotionRowUI : MonoBehaviour
             UpgradeBuyModeManager.Instance.OnBuyModeChanged -= UpdateUI;
         }
     }
-
+    private double GetProfitAtLevel(int level)
+    {
+        return baseProfit * level * potionsMadePerRound * CharmManager.Instance.ProfitMultiplier;
+    }
     public string GetPotionName()
     {
         return potionName;
@@ -206,6 +210,7 @@ public class PotionRowUI : MonoBehaviour
         double earnedAmount = CurrentProfit;
 
         CurrencyManager.Instance.AddCoins(earnedAmount);
+        CurrencyManager.Instance.AddCoins(earnedAmount);
         SpawnFloatingMoney(earnedAmount);
 
         timerSlider.value = 0;
@@ -233,6 +238,8 @@ public class PotionRowUI : MonoBehaviour
     }
     public void UpgradePotion()
     {
+        SoundManager.Instance.PlaySound(SoundType.Upgrade);
+
         if (!isUnlocked) return;
 
         int upgradeAmount = GetUpgradeAmount();
@@ -273,6 +280,21 @@ public class PotionRowUI : MonoBehaviour
         int upgradeAmount = GetUpgradeAmount();
         double bulkCost = GetBulkUpgradeCost(upgradeAmount);
 
+        if (upgradePreviewText != null)
+        {
+            if (!isUnlocked || upgradeAmount <= 0)
+            {
+                upgradePreviewText.text = "";
+            }
+            else
+            {
+                double previewProfit = GetProfitAtLevel(potionLevel + upgradeAmount);
+
+                upgradePreviewText.text =
+                    "> " + NumberFormatter.FormatMoney(previewProfit);
+            }
+        }
+
         bool canUpgrade = upgradeAmount > 0;
         bool canAfford = canUpgrade && CurrencyManager.Instance.CanAfford(bulkCost);
 
@@ -290,6 +312,6 @@ public class PotionRowUI : MonoBehaviour
                 ? new Color(0.6f, 1f, 0.6f)
                 : new Color(0.6f, 0.6f, 0.6f);
 
-        pulseButton.SetPulse(canUpgrade && canAfford);
+        // pulseButton.SetPulse(canUpgrade && canAfford);
     }
 }

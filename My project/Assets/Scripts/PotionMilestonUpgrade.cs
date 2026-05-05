@@ -56,12 +56,14 @@ public class PotionMilestonUpgrade : MonoBehaviour
     public void BuyUpgrade()
     {
         if (targetPotion == null) return;
+        if (!targetPotion.IsUnlocked) return;
         if (targetPotion.PotionLevel < CurrentMilestoneLevel) return;
         if (!CurrencyManager.Instance.CanAfford(CurrentUpgradeCost)) return;
 
         CurrencyManager.Instance.SpendCoins(CurrentUpgradeCost);
 
         targetPotion.IncreasePotionsMadePerRound();
+        SoundManager.Instance.PlaySound(SoundType.Upgrade);
         upgradesPurchased++;
 
         UpdateUI();
@@ -71,7 +73,8 @@ public class PotionMilestonUpgrade : MonoBehaviour
     {
         if (targetPotion == null) return;
 
-        bool ready = targetPotion.PotionLevel >= CurrentMilestoneLevel;
+        bool ready = targetPotion.IsUnlocked && targetPotion.PotionLevel >= CurrentMilestoneLevel;
+        bool canAfford = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
 
         upgradeNameText.text = upgradeName;
         descriptionText.text = description;
@@ -87,19 +90,30 @@ public class PotionMilestonUpgrade : MonoBehaviour
 
         float progress = (float)targetPotion.PotionLevel / CurrentMilestoneLevel;
         progressFill.fillAmount = Mathf.Clamp01(progress);
+        bool potionUnlocked = targetPotion.IsUnlocked;
+        bool reachedMilestone = targetPotion.PotionLevel >= CurrentMilestoneLevel;
 
-        upgradeButtonText.text = ready
-            ? "Upgrade\n$" + CurrentUpgradeCost.ToString("F0")
+        bool canUpgrade = potionUnlocked && reachedMilestone && canAfford;
+
+        upgradeButtonText.text = canUpgrade
+            ? "Upgrade\n" + NumberFormatter.FormatMoney(CurrentUpgradeCost)
             : "Locked";
 
-        upgradeButton.interactable =
-            ready &&
-            CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
+        upgradeButton.interactable = canUpgrade;
 
-        bool canAfford = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
-
-        upgradeButton.image.color = ready && canAfford
+        upgradeButton.image.color = canUpgrade
             ? new Color(0.6f, 1f, 0.6f)
             : new Color(0.6f, 0.6f, 0.6f);
+    }
+
+    public bool IsAvailableToBuy()
+    {
+        if (upgradeButton == null) return false;
+        return upgradeButton.interactable;
+    }
+
+    public bool CanCurrentlyUpgrade()
+    {
+        return upgradeButton != null && upgradeButton.interactable;
     }
 }
