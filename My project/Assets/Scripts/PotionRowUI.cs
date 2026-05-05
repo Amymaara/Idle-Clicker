@@ -49,7 +49,11 @@ public class PotionRowUI : MonoBehaviour
     private bool hasApprentice = false;
     private float apprenticeSpeedMultiplier = 1f;
 
-    private double CurrentProfit => baseProfit * potionLevel * potionsMadePerRound * CharmManager.Instance.ProfitMultiplier;
+    private double CurrentProfit =>
+    baseProfit *
+    potionLevel *
+    (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
+    CharmManager.Instance.ProfitMultiplier;
     private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.12f, potionLevel);
 
     private void Awake()
@@ -120,7 +124,10 @@ public class PotionRowUI : MonoBehaviour
 
         while (true)
         {
-            double nextCost = baseUpgradeCost * Mathf.Pow(1.18f, simulatedLevel);
+            double nextCost =
+                baseUpgradeCost *
+                Mathf.Pow(1.18f, simulatedLevel) *
+                CharmManager.Instance.CostReductionMultiplier;
 
             if (!CurrencyManager.Instance.CanAfford(totalCost + nextCost))
                 break;
@@ -140,13 +147,16 @@ public class PotionRowUI : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            totalCost += baseUpgradeCost * Mathf.Pow(1.18f, simulatedLevel);
+            totalCost +=
+                baseUpgradeCost *
+                Mathf.Pow(1.18f, simulatedLevel) *
+                CharmManager.Instance.CostReductionMultiplier;
+
             simulatedLevel++;
         }
 
         return totalCost;
     }
-
     public void IncreasePotionsMadePerRound()
     {
         potionsMadePerRound++;
@@ -195,11 +205,14 @@ public class PotionRowUI : MonoBehaviour
         float timer = 0f;
 
         float modifiedProductionTime = productionTime /
-    (CharmManager.Instance.SpeedMultiplier * apprenticeSpeedMultiplier);
+        (CharmManager.Instance.SpeedMultiplier *
+         apprenticeSpeedMultiplier *
+         CharmManager.Instance.ApprenticeSpeedMultiplier);
 
         while (timer < modifiedProductionTime)
         {
             timer += Time.deltaTime;
+
 
             timerSlider.value = timer / modifiedProductionTime;
             timerText.text = timer.ToString("F1") + " / " + modifiedProductionTime.ToString("F1") + "s";
@@ -207,7 +220,7 @@ public class PotionRowUI : MonoBehaviour
             yield return null;
         }
 
-        double earnedAmount = CurrentProfit;
+        double earnedAmount = CharmManager.Instance.ApplyChaosBonus(CurrentProfit);
 
         CurrencyManager.Instance.AddCoins(earnedAmount);
         CurrencyManager.Instance.AddCoins(earnedAmount);
@@ -267,7 +280,8 @@ public class PotionRowUI : MonoBehaviour
     {
         potionNameText.text = potionName;
         profitText.text = "Makes: " + NumberFormatter.FormatMoney(CurrentProfit);
-        amountMadeText.text = "Potions: " + potionsMadePerRound;
+        amountMadeText.text = "Potions: " +
+    (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus);
         levelText.text = "Level " + potionLevel;
         upgradeCostText.text = "Upgrade\n$" + CurrentUpgradeCost.ToString("F0");
         apprenticeText.text = hasApprentice ? "Apprentice\nAssigned" : "No\nApprentice";

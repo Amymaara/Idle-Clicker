@@ -2,14 +2,24 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum CharmType
+{
+    Profit,
+    Speed,
+    Growth,
+    CostReduction,
+    ApprenticeSpeed,
+    Chaos
+}
+
 public class CharmCard : MonoBehaviour
 {
     [Header("Charm Data")]
     [SerializeField] private string charmName;
     [SerializeField] private string description;
     [SerializeField] private double cost;
-    [SerializeField] private double profitMultiplier = 1;
-    [SerializeField] private float speedMultiplier = 1;
+    [SerializeField] private CharmType charmType;
+    [SerializeField] private float effectValue = 1.25f;
 
     [Header("UI")]
     [SerializeField] private TMP_Text nameText;
@@ -20,20 +30,20 @@ public class CharmCard : MonoBehaviour
     [SerializeField] private Button assignButton;
     [SerializeField] private TMP_Text assignButtonText;
 
-    [SerializeField] private PulseButtons pulseButton;
-
     private bool isBought = false;
 
     public bool IsBought => isBought;
-    public double ProfitMultiplier => profitMultiplier;
-    public float SpeedMultiplier => speedMultiplier;
     public string CharmName => charmName;
+    public CharmType CharmType => charmType;
+    public float EffectValue => effectValue;
 
     private void Start()
     {
         CurrencyManager.Instance.OnCurrencyChanged += UpdateUI;
+
         buyButton.onClick.AddListener(BuyCharm);
         assignButton.onClick.AddListener(ToggleAssignCharm);
+
         UpdateUI();
     }
 
@@ -71,12 +81,12 @@ public class CharmCard : MonoBehaviour
         UpdateUI();
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         nameText.text = charmName;
         descriptionText.text = description;
         statText.text = GetStatText();
-        costText.text = NumberFormatter.FormatMoney(cost);
+        costText.text = isBought ? "Owned" : NumberFormatter.FormatMoney(cost);
 
         bool canAfford = CurrencyManager.Instance.CanAfford(cost);
 
@@ -84,38 +94,33 @@ public class CharmCard : MonoBehaviour
         assignButton.interactable = isBought;
 
         buyButton.image.color = !isBought && canAfford
-    ? new Color(0.6f, 1f, 0.6f)
-    : new Color(0.6f, 0.6f, 0.6f);
+            ? new Color(0.6f, 1f, 0.6f)
+            : new Color(0.6f, 0.6f, 0.6f);
 
         if (!isBought)
-        {
             assignButtonText.text = "Locked";
-        }
         else if (CharmManager.Instance.IsCharmActive(this))
-        {
             assignButtonText.text = "Remove";
-        }
         else
-        {
             assignButtonText.text = "Assign";
-        }
-
-       // pulseButton.SetPulse(!isBought && canAfford);
     }
 
     private string GetStatText()
     {
-        if (profitMultiplier > 1)
-            return "Profit x" + profitMultiplier;
-
-        if (speedMultiplier > 1)
-            return "Speed x" + speedMultiplier;
-
-        return "Modifier";
+        return charmType switch
+        {
+            CharmType.Profit => "Profit x" + effectValue,
+            CharmType.Speed => "Speed x" + effectValue,
+            CharmType.Growth => "+1 Potion/Round",
+            CharmType.CostReduction => "Costs -" + Mathf.RoundToInt(effectValue * 100) + "%",
+            CharmType.ApprenticeSpeed => "Apprentice Speed x" + effectValue,
+            CharmType.Chaos => "Random Bonus",
+            _ => "Modifier"
+        };
     }
 
     public bool IsAvailableToBuy()
     {
-        return !IsBought && CurrencyManager.Instance.CanAfford(cost);
+        return !isBought && CurrencyManager.Instance.CanAfford(cost);
     }
 }

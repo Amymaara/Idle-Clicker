@@ -5,11 +5,6 @@ public class CharmManager : MonoBehaviour
 {
     public static CharmManager Instance { get; private set; }
 
-    public double ProfitMultiplier { get; private set; } = 1;
-    public float SpeedMultiplier { get; private set; } = 1;
-
-    public IReadOnlyList<CharmCard> ActiveCharms => activeCharms;
-
     [Header("Charm Slot Settings")]
     [SerializeField] private double slotUnlockCost = 1000;
     [SerializeField] private int maxSlots = 3;
@@ -20,6 +15,14 @@ public class CharmManager : MonoBehaviour
     public int UnlockedSlots => unlockedSlots;
     public int MaxSlots => maxSlots;
     public double SlotUnlockCost => slotUnlockCost;
+    public IReadOnlyList<CharmCard> ActiveCharms => activeCharms;
+
+    public double ProfitMultiplier { get; private set; } = 1;
+    public float SpeedMultiplier { get; private set; } = 1;
+    public int GlobalPotionBonus { get; private set; } = 0;
+    public float CostReductionMultiplier { get; private set; } = 1;
+    public float ApprenticeSpeedMultiplier { get; private set; } = 1;
+    public bool ChaosActive { get; private set; } = false;
 
     private void Awake()
     {
@@ -44,7 +47,7 @@ public class CharmManager : MonoBehaviour
         {
             CurrencyManager.Instance.SpendCoins(slotUnlockCost);
             unlockedSlots++;
-            RecalculateMultipliers();
+            RecalculateEffects();
         }
     }
 
@@ -55,7 +58,7 @@ public class CharmManager : MonoBehaviour
         if (!CanAssignCharm()) return;
 
         activeCharms.Add(charm);
-        RecalculateMultipliers();
+        RecalculateEffects();
     }
 
     public void RemoveCharm(CharmCard charm)
@@ -63,19 +66,58 @@ public class CharmManager : MonoBehaviour
         if (!activeCharms.Contains(charm)) return;
 
         activeCharms.Remove(charm);
-        RecalculateMultipliers();
+        RecalculateEffects();
     }
 
-    private void RecalculateMultipliers()
+    private void RecalculateEffects()
     {
         ProfitMultiplier = 1;
         SpeedMultiplier = 1;
+        GlobalPotionBonus = 0;
+        CostReductionMultiplier = 1;
+        ApprenticeSpeedMultiplier = 1;
+        ChaosActive = false;
 
         foreach (CharmCard charm in activeCharms)
         {
-            ProfitMultiplier *= charm.ProfitMultiplier;
-            SpeedMultiplier *= charm.SpeedMultiplier;
+            switch (charm.CharmType)
+            {
+                case CharmType.Profit:
+                    ProfitMultiplier *= charm.EffectValue;
+                    break;
+
+                case CharmType.Speed:
+                    SpeedMultiplier *= charm.EffectValue;
+                    break;
+
+                case CharmType.Growth:
+                    GlobalPotionBonus += Mathf.RoundToInt(charm.EffectValue);
+                    break;
+
+                case CharmType.CostReduction:
+                    CostReductionMultiplier *= 1f - charm.EffectValue;
+                    break;
+
+                case CharmType.ApprenticeSpeed:
+                    ApprenticeSpeedMultiplier *= charm.EffectValue;
+                    break;
+
+                case CharmType.Chaos:
+                    ChaosActive = true;
+                    break;
+            }
         }
     }
 
+    public double ApplyChaosBonus(double amount)
+    {
+        if (!ChaosActive) return amount;
+
+        bool triggered = Random.value <= 0.15f;
+
+        if (!triggered) return amount;
+
+        float multiplier = Random.Range(2f, 5f);
+        return amount * multiplier;
+    }
 }
