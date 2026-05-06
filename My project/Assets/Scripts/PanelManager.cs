@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PanelManager : MonoBehaviour
 {
@@ -67,7 +68,12 @@ public class PanelManager : MonoBehaviour
         ShowPanel(apprenticePanel);
         HidePanel(charmPanel);
 
-        if (!hasShownBuyApprenticeTutorial)
+        Button apprenticeButton =
+    basicApprenticeBuyButtonTarget.GetComponent<Button>();
+
+        if (!hasShownBuyApprenticeTutorial &&
+            apprenticeButton != null &&
+            apprenticeButton.interactable)
         {
             hasShownBuyApprenticeTutorial = true;
 

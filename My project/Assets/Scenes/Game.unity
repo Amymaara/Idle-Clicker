@@ -469,6 +469,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1582939837}
     m_Modifications:
+    - target: {fileID: 1075641589605238601, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -7901777169779311463, guid: f65f1e031e4b0cf4296435fcb41362e7, type: 3}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
       value: 800000
@@ -622,6 +626,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1644765676}
     m_Modifications:
+    - target: {fileID: 1245936046954419266, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 794005853264362711, guid: 34635be594f62d5418701230ec7adc2e, type: 3}
     - target: {fileID: 6840600116728486651, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Name
       value: LifeApprentice
@@ -1685,6 +1693,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1582939837}
     m_Modifications:
+    - target: {fileID: 1075641589605238601, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7138373754498443674, guid: f65f1e031e4b0cf4296435fcb41362e7, type: 3}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
       value: 50000
@@ -1818,6 +1830,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1582939837}
     m_Modifications:
+    - target: {fileID: 1075641589605238601, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -7033796726722632800, guid: f65f1e031e4b0cf4296435fcb41362e7, type: 3}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
       value: 1500000
@@ -2378,6 +2394,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1644765676}
     m_Modifications:
+    - target: {fileID: 1245936046954419266, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 5235628548226942492, guid: 05b9de7950de0f64a9387c762c9466ea, type: 3}
     - target: {fileID: 6840600116728486651, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Name
       value: HealingApprentice
@@ -2643,6 +2663,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PhilosopherSerumUpgrade
       objectReference: {fileID: 0}
+    - target: {fileID: 381001601060647680, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3329715931800104677, guid: c945da49725b3214c8d2ccfad8f50439, type: 3}
     - target: {fileID: 1463039531087021008, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: costScaling
       value: 4
@@ -2868,6 +2892,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1644765676}
     m_Modifications:
+    - target: {fileID: 1245936046954419266, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -4329524371271900888, guid: 67d8c7d29c0f66b439be9725a2b80b51, type: 3}
     - target: {fileID: 6840600116728486651, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Name
       value: PhilosopherApprentice
@@ -3357,6 +3385,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ManaPotionUpgrade
       objectReference: {fileID: 0}
+    - target: {fileID: 381001601060647680, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8051770588345947756, guid: 524749f270f840a469f9c731b5e086ea, type: 3}
     - target: {fileID: 1463039531087021008, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: costScaling
       value: 4
@@ -3591,8 +3623,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4143,6 +4175,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8781714462827050878, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8051770588345947756, guid: 524749f270f840a469f9c731b5e086ea, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4447,11 +4483,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 99859098}
-  - {fileID: 1824185204}
   - {fileID: 333136580}
   - {fileID: 500662500}
   - {fileID: 1867729640}
   - {fileID: 766166533}
+  - {fileID: 1824185204}
   - {fileID: 1198548266}
   - {fileID: 2040095871}
   m_Father: {fileID: 0}
@@ -5219,7 +5255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd18d5638bdd8b40b63f88c27f87548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingCoins: 100000
+  startingCoins: 10
   coinText: {fileID: 675643884}
 --- !u!1 &1047121881
 GameObject:
@@ -5946,6 +5982,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8781714462827050878, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5282660519291734487, guid: 3ec8da20f9179364abf25b618f183996, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6332,6 +6372,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1644765676}
     m_Modifications:
+    - target: {fileID: 1245936046954419266, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8128326572516056866, guid: 3f1abd844d6c0c74f8594f95ef7e1843, type: 3}
     - target: {fileID: 6840600116728486651, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Name
       value: BasicApprentice
@@ -6622,6 +6666,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1582939837}
     m_Modifications:
+    - target: {fileID: 1075641589605238601, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1370661682523340017, guid: f65f1e031e4b0cf4296435fcb41362e7, type: 3}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
       value: 0
@@ -7013,6 +7061,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ElixirOfLifeUpgrade
       objectReference: {fileID: 0}
+    - target: {fileID: 381001601060647680, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5282660519291734487, guid: 3ec8da20f9179364abf25b618f183996, type: 3}
     - target: {fileID: 1463039531087021008, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: costScaling
       value: 4
@@ -7552,6 +7604,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8781714462827050878, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3329715931800104677, guid: c945da49725b3214c8d2ccfad8f50439, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7962,6 +8018,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8781714462827050878, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6265712114395785375, guid: 9218ebb86a076dd4494715f9b1f430c1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7991,6 +8051,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1644765676}
     m_Modifications:
+    - target: {fileID: 1245936046954419266, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3928922404558633456, guid: afccb1ef06c4c2148ad4947c3e2ad184, type: 3}
     - target: {fileID: 6840600116728486651, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Name
       value: ManaApprentice
@@ -8911,6 +8975,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HealingPotionUpgrade
       objectReference: {fileID: 0}
+    - target: {fileID: 381001601060647680, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5563928286973686904, guid: 767e1a246796bd54c98597d427884521, type: 3}
     - target: {fileID: 1463039531087021008, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: costScaling
       value: 4
@@ -9594,6 +9662,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1582939837}
     m_Modifications:
+    - target: {fileID: 1075641589605238601, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2518419522078788468, guid: f65f1e031e4b0cf4296435fcb41362e7, type: 3}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
       value: 150000
@@ -9838,6 +9910,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1582939837}
     m_Modifications:
+    - target: {fileID: 1075641589605238601, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3986406276423654522, guid: f65f1e031e4b0cf4296435fcb41362e7, type: 3}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
       value: 1000000
@@ -10561,6 +10637,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8781714462827050878, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -5563928286973686904, guid: 767e1a246796bd54c98597d427884521, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10738,6 +10818,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BasicBrewUpgrade
       objectReference: {fileID: 0}
+    - target: {fileID: 381001601060647680, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6265712114395785375, guid: 9218ebb86a076dd4494715f9b1f430c1, type: 3}
     - target: {fileID: 1463039531087021008, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: costScaling
       value: 4
