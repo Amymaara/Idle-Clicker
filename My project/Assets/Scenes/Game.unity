@@ -471,7 +471,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
-      value: 100000
+      value: 800000
       objectReference: {fileID: 0}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: charmName
@@ -653,7 +653,7 @@ PrefabInstance:
     - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: apprenticeTabTutorialTarget
       value: 
-      objectReference: {fileID: 1411410278}
+      objectReference: {fileID: 0}
     - target: {fileID: 8877279292708649383, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1551,7 +1551,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
-      value: 7500
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: charmName
@@ -1684,7 +1684,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
-      value: 250000
+      value: 1500000
       objectReference: {fileID: 0}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: charmName
@@ -2273,7 +2273,7 @@ PrefabInstance:
     - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: apprenticeTabTutorialTarget
       value: 
-      objectReference: {fileID: 1411410278}
+      objectReference: {fileID: 0}
     - target: {fileID: 8877279292708649383, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2607,6 +2607,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766166535}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnMilestoneUpgradeBought
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UpgradeMilestoneController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2746,7 +2762,7 @@ PrefabInstance:
     - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: apprenticeTabTutorialTarget
       value: 
-      objectReference: {fileID: 1411410278}
+      objectReference: {fileID: 0}
     - target: {fileID: 8877279292708649383, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3308,6 +3324,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766166535}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnMilestoneUpgradeBought
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UpgradeMilestoneController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3856,6 +3888,7 @@ GameObject:
   - component: {fileID: 766166532}
   - component: {fileID: 766166531}
   - component: {fileID: 766166534}
+  - component: {fileID: 766166535}
   m_Layer: 5
   m_Name: UpgradePanel
   m_TagString: Untagged
@@ -3934,6 +3967,25 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &766166535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 766166530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29239b42f247aae48aa12a426f3240a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeTabTarget: {fileID: 942781910}
+  milestoneUpgrades:
+  - {fileID: 782634392}
+  - {fileID: 1759840549}
+  - {fileID: 1146774546}
+  - {fileID: 1416866146}
+  - {fileID: 624321882}
 --- !u!224 &766502749 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6891055364694997012, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
@@ -3990,6 +4042,10 @@ PrefabInstance:
       propertyPath: baseUpgradeCost
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 3603463664532174609, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: buyModeTutorialController
+      value: 
+      objectReference: {fileID: 1309611551}
     - target: {fileID: 5182318688578402821, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4957,6 +5013,11 @@ MonoBehaviour:
   apprenticePanel: {fileID: 1867729641}
   charmPanel: {fileID: 333136583}
   basicApprenticeBuyButtonTarget: {fileID: 1146603086}
+  tutorialCharmCard: {fileID: 1602508568}
+  charmSlotUI: {fileID: 1646562655}
+  charmTutorialController: {fileID: 1588824917}
+  upgradeMilestoneTutorialController: {fileID: 766166535}
+  buyModeTutorialController: {fileID: 1309611551}
 --- !u!4 &956686923
 Transform:
   m_ObjectHideFlags: 0
@@ -5304,7 +5365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8dd18d5638bdd8b40b63f88c27f87548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingCoins: 10
+  startingCoins: 100000
   coinText: {fileID: 675643884}
 --- !u!1 &1047121881
 GameObject:
@@ -5931,6 +5992,10 @@ PrefabInstance:
       propertyPath: baseUpgradeCost
       value: 800
       objectReference: {fileID: 0}
+    - target: {fileID: 3603463664532174609, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: buyModeTutorialController
+      value: 
+      objectReference: {fileID: 1309611551}
     - target: {fileID: 5182318688578402821, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6118,6 +6183,11 @@ MonoBehaviour:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5182318688578402821, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
   m_PrefabInstance: {fileID: 1958877047}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1221492763 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2693517295619051613, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+  m_PrefabInstance: {fileID: 1335257518}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1222877616
 GameObject:
@@ -6349,6 +6419,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &1262509805 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3811138227917187065, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+  m_PrefabInstance: {fileID: 1335257518}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1263856484
 GameObject:
   m_ObjectHideFlags: 0
@@ -6393,7 +6468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292cd3496ca70aa449b4fe718fa26ebe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotUnlockCost: 1000
+  slotUnlockCost: 5000
   maxSlots: 3
 --- !u!1001 &1305446281
 PrefabInstance:
@@ -6428,6 +6503,10 @@ PrefabInstance:
       value: 'Brewing Assistant '
       objectReference: {fileID: 0}
     - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: firstUpgradeIsFree
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: speedIncreasePerLevel
       value: 0.12
       objectReference: {fileID: 0}
@@ -6435,6 +6514,14 @@ PrefabInstance:
       propertyPath: apprenticeTabTutorialTarget
       value: 
       objectReference: {fileID: 1411410278}
+    - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: apprenticeBuyButtonTutorialTarget
+      value: 
+      objectReference: {fileID: 1146603086}
+    - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
+      propertyPath: canTriggerApprenticeUpgradeTutorial
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8877279292708649383, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -6532,6 +6619,7 @@ GameObject:
   - component: {fileID: 1309611549}
   - component: {fileID: 1309611548}
   - component: {fileID: 1309611550}
+  - component: {fileID: 1309611551}
   m_Layer: 5
   m_Name: BuyButtons
   m_TagString: Untagged
@@ -6640,7 +6728,38 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1309611548}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1309611551}
+        m_TargetAssemblyTypeName: BuyModeTutorialController, Assembly-CSharp
+        m_MethodName: OnBuyModeChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1309611551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309611546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff877080a33ba4d4386320cb219b8da1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buyModeButtonTarget: {fileID: 1309611547}
+  potionRows:
+  - {fileID: 848196166}
+  - {fileID: 964674002}
+  - {fileID: 773774292}
+  - {fileID: 1194777431}
+  - {fileID: 1438881945}
 --- !u!1001 &1335257518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6651,7 +6770,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
-      value: 5000
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: charmName
@@ -6665,6 +6784,22 @@ PrefabInstance:
       propertyPath: profitMultiplier
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: canTriggerCharmTutorial
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: charmsTabTutorialTarget
+      value: 
+      objectReference: {fileID: 1181522898}
+    - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: charmBuyButtonTutorialTarget
+      value: 
+      objectReference: {fileID: 1221492763}
+    - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
+      propertyPath: charmAssignButtonTutorialTarget
+      value: 
+      objectReference: {fileID: 1262509805}
     - target: {fileID: 2812249323473335852, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: m_Name
       value: LuckyCharm
@@ -6807,6 +6942,7 @@ Transform:
   - {fileID: 884794388}
   - {fileID: 290813687}
   - {fileID: 1428146711}
+  - {fileID: 1588824918}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1350898199
@@ -7122,6 +7258,22 @@ PrefabInstance:
     - target: {fileID: 2044093915257405638, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766166535}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnMilestoneUpgradeBought
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UpgradeMilestoneController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7446,6 +7598,10 @@ PrefabInstance:
       propertyPath: baseUpgradeCost
       value: 3000
       objectReference: {fileID: 0}
+    - target: {fileID: 3603463664532174609, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: buyModeTutorialController
+      value: 
+      objectReference: {fileID: 1309611551}
     - target: {fileID: 5182318688578402821, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -7852,6 +8008,14 @@ PrefabInstance:
       propertyPath: productionTime
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3603463664532174609, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: baseUpgradeCost
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3603463664532174609, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: buyModeTutorialController
+      value: 
+      objectReference: {fileID: 1309611551}
     - target: {fileID: 5182318688578402821, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8004,7 +8168,7 @@ PrefabInstance:
     - target: {fileID: 8562816855335372141, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: apprenticeTabTutorialTarget
       value: 
-      objectReference: {fileID: 1411410278}
+      objectReference: {fileID: 0}
     - target: {fileID: 8877279292708649383, guid: b80972659e7b4e544bf81ca89477c4c4, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -8511,6 +8675,53 @@ MonoBehaviour:
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 1
   m_ConstraintCount: 4
+--- !u!1 &1588824916
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1588824918}
+  - component: {fileID: 1588824917}
+  m_Layer: 0
+  m_Name: CharmTutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1588824917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588824916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c16a6397d799f48bd53dfc8c6ee257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charmsTabTarget: {fileID: 1181522898}
+  charmSlotUI: {fileID: 1646562655}
+  tutorialCharmCard: {fileID: 1602508568}
+--- !u!4 &1588824918
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588824916}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1342810313}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1602508567 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8252211201690810626, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
@@ -8695,6 +8906,9 @@ MonoBehaviour:
   charmSlot2Text: {fileID: 738354607}
   charmSlot3Text: {fileID: 1193287028}
   pulseButton: {fileID: 0}
+  canTriggerCharmSlotTutorial: 1
+  charmSlotButtonTutorialTarget: {fileID: 1183565579}
+  charmTutorialController: {fileID: 1588824917}
 --- !u!1 &1661743633
 GameObject:
   m_ObjectHideFlags: 0
@@ -8942,6 +9156,22 @@ PrefabInstance:
     - target: {fileID: 2044093915257405638, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766166535}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnMilestoneUpgradeBought
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UpgradeMilestoneController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9512,7 +9742,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
-      value: 50000
+      value: 150000
       objectReference: {fileID: 0}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: charmName
@@ -9756,7 +9986,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
-      value: 500000
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: charmName
@@ -10377,6 +10607,10 @@ PrefabInstance:
       propertyPath: baseUpgradeCost
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 3603463664532174609, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
+      propertyPath: buyModeTutorialController
+      value: 
+      objectReference: {fileID: 1309611551}
     - target: {fileID: 5182318688578402821, guid: f8c9627bf45ac9a4e8ad989176acafec, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -10753,6 +10987,22 @@ PrefabInstance:
     - target: {fileID: 2044093915257405638, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 766166535}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnMilestoneUpgradeBought
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UpgradeMilestoneController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386244494058486227, guid: 4d7d308038fabf44aa03994d65078a43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

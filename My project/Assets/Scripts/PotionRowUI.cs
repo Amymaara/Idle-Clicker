@@ -39,6 +39,9 @@ public class PotionRowUI : MonoBehaviour
     [Header("Milestone Upgrade Settings")]
     [SerializeField] private int potionsMadePerRound = 1;
 
+    [Header("Tutorial")]
+    [SerializeField] private BuyModeTutorialController buyModeTutorialController;
+
     public int PotionLevel => potionLevel;
     public bool IsUnlocked => isUnlocked || startsUnlocked;
     public int PotionsMadePerRound => potionsMadePerRound;
@@ -53,10 +56,11 @@ public class PotionRowUI : MonoBehaviour
     private bool hasShownUnlockPotionTutorial = false;
 
     private double CurrentProfit =>
-        baseProfit *
-        potionLevel *
-        (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
-        CharmManager.Instance.ProfitMultiplier;
+     baseProfit *
+     potionLevel *
+     Mathf.Pow(1.015f, potionLevel - 1) *
+     (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
+     CharmManager.Instance.ProfitMultiplier;
 
     private void Awake()
     {
@@ -108,10 +112,10 @@ public class PotionRowUI : MonoBehaviour
     {
         return baseProfit *
                level *
+               Mathf.Pow(1.015f, level - 1) *
                (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
                CharmManager.Instance.ProfitMultiplier;
     }
-
     private int GetUpgradeAmount()
     {
         if (UpgradeBuyModeManager.Instance.CurrentMode == UpgradeBuyMode.One)
@@ -133,7 +137,7 @@ public class PotionRowUI : MonoBehaviour
         {
             double nextCost =
                 baseUpgradeCost *
-                Mathf.Pow(1.18f, simulatedLevel) *
+                Mathf.Pow(1.12f, simulatedLevel) *
                 CharmManager.Instance.CostReductionMultiplier;
 
             if (!CurrencyManager.Instance.CanAfford(totalCost + nextCost))
@@ -156,7 +160,7 @@ public class PotionRowUI : MonoBehaviour
         {
             totalCost +=
                 baseUpgradeCost *
-                Mathf.Pow(1.18f, simulatedLevel) *
+                Mathf.Pow(1.12f, simulatedLevel) *
                 CharmManager.Instance.CostReductionMultiplier;
 
             simulatedLevel++;
@@ -282,7 +286,7 @@ public class PotionRowUI : MonoBehaviour
         if (upgradeAmount <= 0) return;
 
         double totalCost = GetBulkUpgradeCost(upgradeAmount);
-
+        
         if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
 
         SoundManager.Instance.PlaySound(SoundType.Upgrade);
@@ -365,7 +369,7 @@ public class PotionRowUI : MonoBehaviour
 
             TutorialManager.Instance.ShowTutorial(
                 "Unlock new potions for bigger profits.",
-                GetComponent<RectTransform>(),
+                unlockButton.GetComponent<RectTransform>(),
                 TutorialAction.UnlockPotion
             );
         }

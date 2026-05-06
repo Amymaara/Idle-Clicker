@@ -27,9 +27,9 @@ public class ApprenticeCard : MonoBehaviour
     [SerializeField] private TMP_Text upgradePreviewText;
 
 
-    [Header("Tutorial Target")]
+    [Header("Tutorial")]
     [SerializeField] private RectTransform apprenticeTabTutorialTarget;
-    [SerializeField] private RectTransform apprenticeBuyButtonTutorialTarget;
+    [SerializeField] private bool firstUpgradeIsFree = false;
 
     [Header("Locked Overlay")]
     [SerializeField] private GameObject lockedOverlay;
@@ -38,6 +38,9 @@ public class ApprenticeCard : MonoBehaviour
 
     private int apprenticeLevel = 0;
     private bool hasShownApprenticeTutorial = false;
+    [SerializeField] private bool canTriggerApprenticeUpgradeTutorial = false;
+    private bool hasShownApprenticeUpgradeTutorial = false;
+
     private double CurrentCost => baseCost * Mathf.Pow(costScaling, apprenticeLevel);
 
     private float SpeedMultiplier
@@ -87,11 +90,6 @@ public class ApprenticeCard : MonoBehaviour
 
         if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
 
-        TutorialManager.Instance.ShowTutorial(
-         "Buy an apprentice to automate Basic Brew.",
-         apprenticeBuyButtonTutorialTarget,
-         TutorialAction.BuyApprentice
-        );
 
         CurrencyManager.Instance.SpendCoins(totalCost);
 
@@ -111,6 +109,24 @@ public class ApprenticeCard : MonoBehaviour
         }
 
         apprenticeLevel += upgradeAmount;
+
+        if (canTriggerApprenticeUpgradeTutorial &&
+    !hasShownApprenticeUpgradeTutorial &&
+    apprenticeLevel == 1)
+        {
+            hasShownApprenticeUpgradeTutorial = true;
+
+            TutorialManager.Instance.ShowTutorial(
+                "Upgrade apprentices to make them brew faster.",
+                buyButton.GetComponent<RectTransform>(),
+                TutorialAction.UpgradeApprentice
+            );
+        }
+
+        if (apprenticeLevel > 1)
+        {
+            TutorialManager.Instance.TryCompleteTutorial(TutorialAction.UpgradeApprentice);
+        }
 
         targetPotion.SetApprenticeSpeedMultiplier(SpeedMultiplier);
 
@@ -156,7 +172,16 @@ public class ApprenticeCard : MonoBehaviour
 
         for (int i = 0; i < amount; i++)
         {
-            totalCost += baseCost * Mathf.Pow(costScaling, simulatedLevel);
+            bool isFirstUpgradeAfterBuying =
+                firstUpgradeIsFree &&
+                apprenticeLevel == 1 &&
+                simulatedLevel == 1;
+
+            if (!isFirstUpgradeAfterBuying)
+            {
+                totalCost += baseCost * Mathf.Pow(costScaling, simulatedLevel);
+            }
+
             simulatedLevel++;
         }
 
@@ -250,6 +275,7 @@ public class ApprenticeCard : MonoBehaviour
              TutorialAction.OpenApprenticeTab
             );
         }
+
     }
 
     public bool IsAvailableToBuy()

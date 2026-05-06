@@ -8,10 +8,35 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private CanvasGroup apprenticePanel;
     [SerializeField] private CanvasGroup charmPanel;
     [SerializeField] private RectTransform basicApprenticeBuyButtonTarget;
+    [SerializeField] private CharmCard tutorialCharmCard;
+    [SerializeField] private CharmSlotUI charmSlotUI;
+    [SerializeField] private CharmTutorialController charmTutorialController;
+    [SerializeField] private UpgradeMilestoneController upgradeMilestoneTutorialController;
+    [SerializeField] private BuyModeTutorialController buyModeTutorialController;
+    private bool hasShownBuyApprenticeTutorial = false;
+
 
     private void Start()
     {
         ShowMain();
+    }
+
+    private void Update()
+    {
+        if (charmTutorialController != null)
+        {
+            charmTutorialController.TryShowOpenCharmTabTutorial();
+        }
+
+        if (upgradeMilestoneTutorialController != null)
+        {
+            upgradeMilestoneTutorialController.TryShowOpenUpgradePanelTutorial();
+        }
+
+        if (buyModeTutorialController != null)
+        {
+            buyModeTutorialController.TryShowBuyModeTutorial();
+        }
     }
 
     public void ShowMain()
@@ -28,6 +53,11 @@ public class PanelManager : MonoBehaviour
         ShowPanel(upgradePanel);
         HidePanel(apprenticePanel);
         HidePanel(charmPanel);
+
+        if (upgradeMilestoneTutorialController != null)
+        {
+            upgradeMilestoneTutorialController.OnUpgradePanelOpened();
+        }
     }
 
     public void ShowApprentice()
@@ -37,17 +67,16 @@ public class PanelManager : MonoBehaviour
         ShowPanel(apprenticePanel);
         HidePanel(charmPanel);
 
-        if (TutorialManager.Instance != null &&
-    TutorialManager.Instance.HasCompletedPotionUnlock)
+        if (!hasShownBuyApprenticeTutorial)
         {
-            TutorialManager.Instance.ShowTutorial(
-             "Open the Apprentice tab to hire someone to automate brewing.",
-             basicApprenticeBuyButtonTarget,
-             TutorialAction.OpenApprenticeTab
-            );
+            hasShownBuyApprenticeTutorial = true;
 
+            TutorialManager.Instance.ShowTutorial(
+                "Buy an apprentice to automate Basic Brew.",
+                basicApprenticeBuyButtonTarget,
+                TutorialAction.BuyApprentice
+            );
         }
-        TutorialManager.Instance.TryCompleteTutorial(TutorialAction.OpenApprenticeTab);
     }
 
     public void ShowCharms()
@@ -56,6 +85,11 @@ public class PanelManager : MonoBehaviour
         HidePanel(upgradePanel);
         HidePanel(apprenticePanel);
         ShowPanel(charmPanel);
+
+        if (charmTutorialController != null)
+        {
+            charmTutorialController.OnCharmsTabOpened();
+        }
     }
 
     private void ShowPanel(CanvasGroup panel)

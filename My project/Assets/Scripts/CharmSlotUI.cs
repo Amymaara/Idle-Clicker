@@ -16,6 +16,13 @@ public class CharmSlotUI : MonoBehaviour
 
     [SerializeField] private PulseButtons pulseButton;
 
+    [Header("Tutorial")]
+    [SerializeField] private bool canTriggerCharmSlotTutorial = false;
+    [SerializeField] private RectTransform charmSlotButtonTutorialTarget;
+    [SerializeField] private CharmTutorialController charmTutorialController;
+
+    private bool hasShownCharmSlotTutorial = false;
+
     private void Start()
     {
         unlockSlotButton.onClick.AddListener(UnlockSlot);
@@ -30,7 +37,29 @@ public class CharmSlotUI : MonoBehaviour
     public void UnlockSlot()
     {
         CharmManager.Instance.UnlockCharmSlot();
-        UpdateUI();
+
+        if (charmTutorialController != null)
+        {
+            charmTutorialController.OnCharmSlotBought();
+        }
+    }
+
+    public void TryShowCharmSlotTutorial()
+    {
+        if (TutorialManager.Instance == null) return;
+        if (!TutorialManager.Instance.HasCompletedOpenCharmTab) return;
+        if (!canTriggerCharmSlotTutorial) return;
+        if (hasShownCharmSlotTutorial) return;
+        if (CharmManager.Instance.UnlockedSlots > 0) return;
+        if (!CurrencyManager.Instance.CanAfford(CharmManager.Instance.SlotUnlockCost)) return;
+
+        hasShownCharmSlotTutorial = true;
+
+        TutorialManager.Instance.ShowTutorial(
+            "Buy a charm slot first. Charms only work when placed in an active slot.",
+            charmSlotButtonTutorialTarget,
+            TutorialAction.UnlockCharmSlot
+        );
     }
 
     private void UpdateUI()
@@ -59,8 +88,7 @@ public class CharmSlotUI : MonoBehaviour
     CharmManager.Instance.UnlockedSlots < CharmManager.Instance.MaxSlots && canAffordSlot
         ? new Color(0.6f, 1f, 0.6f)
         : new Color(0.6f, 0.6f, 0.6f);
-
-     }
+    }
 
     private void UpdateSlotText(TMP_Text slotText, int index)
     {

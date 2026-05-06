@@ -9,8 +9,14 @@ public enum TutorialAction
     UnlockPotion,
     OpenApprenticeTab,
     BuyApprentice,
+    UpgradeApprentice,
     OpenCharmTab,
-    BuyCharm
+    UnlockCharmSlot,
+    BuyCharm,
+    AssignCharm,
+    OpenUpgradePanel,
+    BuyMilestoneUpgrade,
+    OpenBuyMode,
 }
 
 public class TutorialManager : MonoBehaviour
@@ -36,7 +42,7 @@ public class TutorialManager : MonoBehaviour
     public bool HasCompletedPotionUnlock { get; private set; }
     public bool IsTutorialShowing { get; private set; }
     private TutorialAction requiredAction = TutorialAction.None;
-
+    public bool HasCompletedOpenCharmTab { get; private set; }
     private void Awake()
     {
         Instance = this;
@@ -51,6 +57,15 @@ public class TutorialManager : MonoBehaviour
         {
             PositionTutorial(currentTarget);
         }
+    }
+    public void ShowInfoTutorial(string message, RectTransform target, float duration = 3f)
+    {
+        ShowTutorial(message, target, TutorialAction.None);
+        Invoke(nameof(HideTutorial), duration);
+    }
+    public void CompleteOpenCharmTab()
+    {
+        HasCompletedOpenCharmTab = true;
     }
 
     public void CompleteFirstBrew()

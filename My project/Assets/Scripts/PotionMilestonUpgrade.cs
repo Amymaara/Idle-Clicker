@@ -25,6 +25,10 @@ public class PotionMilestonUpgrade : MonoBehaviour
     [SerializeField] private Image progressFill;
     [SerializeField] private Button upgradeButton;
 
+    [Header("Tutorial")]
+    [SerializeField] private UpgradeMilestoneController upgradeMilestoneTutorialController;
+    public RectTransform UpgradeButtonTarget => upgradeButton.GetComponent<RectTransform>();
+
     private int upgradesPurchased = 0;
 
     private int CurrentMilestoneLevel =>
@@ -66,7 +70,20 @@ public class PotionMilestonUpgrade : MonoBehaviour
         SoundManager.Instance.PlaySound(SoundType.Upgrade);
         upgradesPurchased++;
 
+        if (upgradeMilestoneTutorialController != null)
+        {
+            upgradeMilestoneTutorialController.OnMilestoneUpgradeBought();
+        }
+
         UpdateUI();
+    }
+
+    public bool IsMilestoneReady()
+    {
+        if (targetPotion == null) return false;
+
+        return targetPotion.IsUnlocked &&
+               targetPotion.PotionLevel >= CurrentMilestoneLevel;
     }
 
     public void UpdateUI()

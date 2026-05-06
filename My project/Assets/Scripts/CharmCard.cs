@@ -30,6 +30,16 @@ public class CharmCard : MonoBehaviour
     [SerializeField] private Button assignButton;
     [SerializeField] private TMP_Text assignButtonText;
 
+    [Header("Tutorial")]
+    [SerializeField] private bool canTriggerCharmTutorial = false;
+    [SerializeField] private RectTransform charmsTabTutorialTarget;
+    [SerializeField] private RectTransform charmBuyButtonTutorialTarget;
+    [SerializeField] private RectTransform charmAssignButtonTutorialTarget;
+
+    private bool hasShownOpenCharmTabTutorial = false;
+    private bool hasShownBuyCharmTutorial = false;
+    private bool hasShownAssignCharmTutorial = false;
+
     private bool isBought = false;
 
     public bool IsBought => isBought;
@@ -63,6 +73,38 @@ public class CharmCard : MonoBehaviour
             isBought = true;
             UpdateUI();
         }
+
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.TryCompleteTutorial(TutorialAction.BuyCharm);
+        }
+
+        if (canTriggerCharmTutorial && !hasShownAssignCharmTutorial)
+        {
+            hasShownAssignCharmTutorial = true;
+
+            TutorialManager.Instance.ShowTutorial(
+                "Assign the charm to an active slot to use its effect.",
+                charmAssignButtonTutorialTarget,
+                TutorialAction.AssignCharm
+            );
+        }
+    }
+
+    public void ShowBuyCharmTutorial()
+    {
+        if (!canTriggerCharmTutorial) return;
+        if (hasShownBuyCharmTutorial) return;
+        if (isBought) return;
+        if (CharmManager.Instance.UnlockedSlots <= 0) return;
+
+        hasShownBuyCharmTutorial = true;
+
+        TutorialManager.Instance.ShowTutorial(
+            "Now buy a charm.",
+            charmBuyButtonTutorialTarget,
+            TutorialAction.BuyCharm
+        );
     }
 
     public void ToggleAssignCharm()
@@ -76,6 +118,12 @@ public class CharmCard : MonoBehaviour
         else
         {
             CharmManager.Instance.AssignCharm(this);
+        }
+
+        if (TutorialManager.Instance != null &&
+    CharmManager.Instance.IsCharmActive(this))
+        {
+            TutorialManager.Instance.TryCompleteTutorial(TutorialAction.AssignCharm);
         }
 
         UpdateUI();
@@ -103,6 +151,7 @@ public class CharmCard : MonoBehaviour
             assignButtonText.text = "Remove";
         else
             assignButtonText.text = "Assign";
+
     }
 
     private string GetStatText()

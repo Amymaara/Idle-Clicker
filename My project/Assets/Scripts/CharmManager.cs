@@ -6,7 +6,7 @@ public class CharmManager : MonoBehaviour
     public static CharmManager Instance { get; private set; }
 
     [Header("Charm Slot Settings")]
-    [SerializeField] private double slotUnlockCost = 1000;
+    [SerializeField] private double slotUnlockCost = 5000;
     [SerializeField] private int maxSlots = 3;
 
     private int unlockedSlots = 0;

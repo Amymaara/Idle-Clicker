@@ -129,6 +129,7 @@ MonoBehaviour:
   upgradeButtonText: {fileID: 2860222989006574926}
   progressFill: {fileID: 1622593293536300141}
   upgradeButton: {fileID: 5386244494058486227}
+  upgradeMilestoneTutorialController: {fileID: 0}
 --- !u!1 &532303715751889146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1157,7 +1158,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6767505030439272646}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 120870172880704827}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8347576427890781371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,6 +1183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 776509f9d9288844bbc6e7b962ff7c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 0}
   hoverScale: 1.05
   pressScale: 0.92
   speed: 10
