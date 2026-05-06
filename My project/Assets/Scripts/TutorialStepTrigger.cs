@@ -4,6 +4,9 @@ public class TutorialStepTrigger : MonoBehaviour
 {
     [SerializeField] private string tutorialMessage;
     [SerializeField] private RectTransform target;
+
+    [Header("Tutorial Settings")]
+    [SerializeField] private TutorialAction requiredAction;
     [SerializeField] private bool showOnStart = false;
     [SerializeField] private bool onlyShowOnce = true;
 
@@ -23,7 +26,11 @@ public class TutorialStepTrigger : MonoBehaviour
 
         hasShown = true;
 
-        TutorialManager.Instance.ShowTutorial(tutorialMessage, target);
+        TutorialManager.Instance.ShowTutorial(
+            tutorialMessage,
+            target,
+            requiredAction
+        );
     }
 
     public void Hide()

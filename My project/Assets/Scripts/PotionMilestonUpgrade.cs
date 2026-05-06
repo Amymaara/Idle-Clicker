@@ -108,8 +108,13 @@ public class PotionMilestonUpgrade : MonoBehaviour
 
     public bool IsAvailableToBuy()
     {
-        if (upgradeButton == null) return false;
-        return upgradeButton.interactable;
+        if (targetPotion == null) return false;
+
+        bool potionUnlocked = targetPotion.IsUnlocked;
+        bool reachedMilestone = targetPotion.PotionLevel >= CurrentMilestoneLevel;
+        bool canAfford = CurrencyManager.Instance.CanAfford(CurrentUpgradeCost);
+
+        return potionUnlocked && reachedMilestone && canAfford;
     }
 
     public bool CanCurrentlyUpgrade()

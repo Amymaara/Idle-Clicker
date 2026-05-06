@@ -9,62 +9,65 @@ public class SideTabNotifier : MonoBehaviour
     [SerializeField] private float maxAlpha = 0.9f;
 
     private bool hasNotification;
-    private bool previousNotification;
     private bool isSelected;
-    private bool showGlow;
+
+    private void Awake()
+    {
+        HideGlow();
+    }
 
     private void Update()
     {
         if (glowImage == null) return;
 
-        // If nothing is currently available, fully reset the glow
-        if (!hasNotification)
+        bool shouldGlow = hasNotification && !isSelected;
+
+        if (!shouldGlow)
         {
-            showGlow = false;
-            previousNotification = false;
-            glowImage.gameObject.SetActive(false);
+            HideGlow();
             return;
         }
 
-        // Detect NEW availability
-        if (hasNotification && !previousNotification)
-        {
-            showGlow = true;
-        }
+        glowImage.gameObject.SetActive(true);
 
-        previousNotification = hasNotification;
+        float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f;
+        float alpha = Mathf.Lerp(minAlpha, maxAlpha, pulse);
 
-        if (showGlow && !isSelected)
-        {
-            float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) / 2f;
-            float alpha = Mathf.Lerp(minAlpha, maxAlpha, pulse);
-
-            Color color = glowImage.color;
-            color.a = alpha;
-            glowImage.color = color;
-
-            glowImage.gameObject.SetActive(true);
-        }
-        else
-        {
-            glowImage.gameObject.SetActive(false);
-        }
+        Color color = glowImage.color;
+        color.a = alpha;
+        glowImage.color = color;
     }
 
     public void SetNotification(bool value)
     {
         hasNotification = value;
+
+        if (!value)
+            HideGlow();
     }
 
     public void SetSelected(bool value)
     {
         isSelected = value;
 
-        if (isSelected)
-        {
-            showGlow = false; // player has seen it
-        }
+        if (value)
+            HideGlow();
     }
 
+    public void Clear()
+    {
+        hasNotification = false;
+        HideGlow();
+    }
 
+    private void HideGlow()
+    {
+        if (glowImage == null) return;
+
+        Color color = glowImage.color;
+        color.a = 0f;
+        glowImage.color = color;
+
+        glowImage.gameObject.SetActive(false);
+    }
 }

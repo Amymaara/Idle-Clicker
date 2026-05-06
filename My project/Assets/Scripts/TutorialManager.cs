@@ -1,6 +1,18 @@
 using TMPro;
 using UnityEngine;
 
+public enum TutorialAction
+{
+    None,
+    BrewPotion,
+    UpgradePotion,
+    UnlockPotion,
+    OpenApprenticeTab,
+    BuyApprentice,
+    OpenCharmTab,
+    BuyCharm
+}
+
 public class TutorialManager : MonoBehaviour
 {
     public static TutorialManager Instance { get; private set; }
@@ -12,12 +24,18 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private RectTransform tutorialBubble;
     [SerializeField] private TMP_Text tutorialText;
 
+
     [Header("Settings")]
     [SerializeField] private Vector2 highlightPadding = new Vector2(30, 20);
     [SerializeField] private Vector2 arrowOffset = new Vector2(0, -90);
 
     private RectTransform currentTarget;
     private bool isShowing;
+    public bool HasCompletedFirstBrew { get; private set; }
+    public bool HasCompletedFirstUpgrade { get; private set; }
+    public bool HasCompletedPotionUnlock { get; private set; }
+    public bool IsTutorialShowing { get; private set; }
+    private TutorialAction requiredAction = TutorialAction.None;
 
     private void Awake()
     {
@@ -35,17 +53,44 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public void ShowTutorial(string message, RectTransform target)
+    public void CompleteFirstBrew()
+    {
+        HasCompletedFirstBrew = true;
+    }
+
+    public void CompleteFirstUpgrade()
+    {
+        HasCompletedFirstUpgrade = true;
+    }
+
+    public void CompletePotionUnlock()
+    {
+        HasCompletedPotionUnlock = true;
+    }
+
+    public void ShowTutorial(string message, RectTransform target, TutorialAction action)
     {
         if (tutorialOverlay == null || target == null) return;
 
         currentTarget = target;
+        requiredAction = action;
         isShowing = true;
+        IsTutorialShowing = true;
 
         tutorialText.text = message;
         tutorialOverlay.SetActive(true);
 
         PositionTutorial(target);
+    }
+
+    public void TryCompleteTutorial(TutorialAction action)
+    {
+        if (!isShowing) return;
+
+        if (action == requiredAction)
+        {
+            HideTutorial();
+        }
     }
 
     public void HideTutorial()
@@ -55,6 +100,9 @@ public class TutorialManager : MonoBehaviour
 
         if (tutorialOverlay != null)
             tutorialOverlay.SetActive(false);
+
+        IsTutorialShowing = false;
+
     }
 
     private void PositionTutorial(RectTransform target)

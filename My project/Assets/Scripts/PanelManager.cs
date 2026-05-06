@@ -7,6 +7,7 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private CanvasGroup upgradePanel;
     [SerializeField] private CanvasGroup apprenticePanel;
     [SerializeField] private CanvasGroup charmPanel;
+    [SerializeField] private RectTransform basicApprenticeBuyButtonTarget;
 
     private void Start()
     {
@@ -35,6 +36,18 @@ public class PanelManager : MonoBehaviour
         HidePanel(upgradePanel);
         ShowPanel(apprenticePanel);
         HidePanel(charmPanel);
+
+        if (TutorialManager.Instance != null &&
+    TutorialManager.Instance.HasCompletedPotionUnlock)
+        {
+            TutorialManager.Instance.ShowTutorial(
+             "Open the Apprentice tab to hire someone to automate brewing.",
+             basicApprenticeBuyButtonTarget,
+             TutorialAction.OpenApprenticeTab
+            );
+
+        }
+        TutorialManager.Instance.TryCompleteTutorial(TutorialAction.OpenApprenticeTab);
     }
 
     public void ShowCharms()

@@ -26,12 +26,18 @@ public class ApprenticeCard : MonoBehaviour
     [SerializeField] private Button buyButton;
     [SerializeField] private TMP_Text upgradePreviewText;
 
+
+    [Header("Tutorial Target")]
+    [SerializeField] private RectTransform apprenticeTabTutorialTarget;
+    [SerializeField] private RectTransform apprenticeBuyButtonTutorialTarget;
+
     [Header("Locked Overlay")]
     [SerializeField] private GameObject lockedOverlay;
     [SerializeField] private TMP_Text lockedReasonText;
     [SerializeField] private PulseButtons pulseButton;
-    private int apprenticeLevel = 0;
 
+    private int apprenticeLevel = 0;
+    private bool hasShownApprenticeTutorial = false;
     private double CurrentCost => baseCost * Mathf.Pow(costScaling, apprenticeLevel);
 
     private float SpeedMultiplier
@@ -81,7 +87,19 @@ public class ApprenticeCard : MonoBehaviour
 
         if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
 
+        TutorialManager.Instance.ShowTutorial(
+         "Buy an apprentice to automate Basic Brew.",
+         apprenticeBuyButtonTutorialTarget,
+         TutorialAction.BuyApprentice
+        );
+
         CurrencyManager.Instance.SpendCoins(totalCost);
+
+        if (TutorialManager.Instance != null)
+        {
+            TutorialManager.Instance.TryCompleteTutorial(TutorialAction.BuyApprentice);
+        }
+
         SoundManager.Instance.PlaySound(SoundType.Upgrade);
 
         // First purchase unlocks apprentice
@@ -216,7 +234,22 @@ public class ApprenticeCard : MonoBehaviour
             ? new Color(0.6f, 1f, 0.6f)   // green
             : new Color(0.6f, 0.6f, 0.6f); // grey
 
-       // pulseButton.SetPulse(canUpgrade && canAfford);
+        // pulseButton.SetPulse(canUpgrade && canAfford);
+
+        if (!hasShownApprenticeTutorial &&
+    apprenticeLevel == 0 &&
+    targetPotion != null &&
+    targetPotion.IsUnlocked &&
+    CurrencyManager.Instance.CanAfford(GetBulkUpgradeCost(1)))
+        {
+            hasShownApprenticeTutorial = true;
+
+            TutorialManager.Instance.ShowTutorial(
+             "Open the Apprentice tab to hire someone to automate brewing.",
+             apprenticeTabTutorialTarget,
+             TutorialAction.OpenApprenticeTab
+            );
+        }
     }
 
     public bool IsAvailableToBuy()

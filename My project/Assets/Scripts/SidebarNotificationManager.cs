@@ -15,9 +15,17 @@ public class SidebarNotificationManager : MonoBehaviour
 
     private void Update()
     {
+        if (TutorialManager.Instance != null && TutorialManager.Instance.IsTutorialShowing)
+        {
+            upgradeTab.Clear();
+            apprenticeTab.Clear();
+            charmsTab.Clear();
+            return;
+        }
+
         bool upgradeAvailable = HasAvailableUpgrade();
 
-        upgradeTab.SetNotification(upgradeAvailable);
+        upgradeTab.SetNotification(HasAvailableUpgrade());
         apprenticeTab.SetNotification(HasAvailableApprentice());
         charmsTab.SetNotification(HasAvailableCharm());
     }
@@ -26,7 +34,7 @@ public class SidebarNotificationManager : MonoBehaviour
     {
         foreach (PotionMilestonUpgrade card in upgradeCards)
         {
-            if (card != null && card.CanCurrentlyUpgrade())
+            if (card != null && card.IsAvailableToBuy())
                 return true;
         }
 

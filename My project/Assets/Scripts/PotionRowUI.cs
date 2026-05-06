@@ -25,7 +25,6 @@ public class PotionRowUI : MonoBehaviour
     [SerializeField] private Slider timerSlider;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button apprenticeButton;
-    [SerializeField] private PulseButtons pulseButton;
 
     [SerializeField] private FloatingMoneyTextUI floatingMoneyPrefab;
     [SerializeField] private Transform floatingMoneySpawnPoint;
@@ -43,19 +42,21 @@ public class PotionRowUI : MonoBehaviour
     public int PotionLevel => potionLevel;
     public bool IsUnlocked => isUnlocked || startsUnlocked;
     public int PotionsMadePerRound => potionsMadePerRound;
+
     private bool isUnlocked;
     private int potionLevel = 1;
     private bool isProducing = false;
     private bool hasApprentice = false;
     private float apprenticeSpeedMultiplier = 1f;
+
     private bool hasShownFirstEarningsTutorial = false;
+    private bool hasShownUnlockPotionTutorial = false;
 
     private double CurrentProfit =>
-    baseProfit *
-    potionLevel *
-    (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
-    CharmManager.Instance.ProfitMultiplier;
-    private double CurrentUpgradeCost => baseUpgradeCost * Mathf.Pow(1.12f, potionLevel);
+        baseProfit *
+        potionLevel *
+        (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
+        CharmManager.Instance.ProfitMultiplier;
 
     private void Awake()
     {
@@ -65,14 +66,17 @@ public class PotionRowUI : MonoBehaviour
     private void Start()
     {
         if (UpgradeBuyModeManager.Instance != null)
-        {
             UpgradeBuyModeManager.Instance.OnBuyModeChanged += UpdateUI;
-        }
 
         CurrencyManager.Instance.OnCurrencyChanged += UpdateUI;
 
         upgradeButton.onClick.AddListener(UpgradePotion);
-        apprenticeButton.onClick.AddListener(AssignApprentice);
+
+        if (apprenticeButton != null)
+            apprenticeButton.onClick.AddListener(AssignApprentice);
+
+        if (unlockButton != null)
+            unlockButton.onClick.AddListener(UnlockPotion);
 
         timerSlider.value = 0;
         UpdateUI();
@@ -86,24 +90,26 @@ public class PotionRowUI : MonoBehaviour
         }
     }
 
-
     private void OnDisable()
     {
         if (CurrencyManager.Instance != null)
             CurrencyManager.Instance.OnCurrencyChanged -= UpdateUI;
 
         if (UpgradeBuyModeManager.Instance != null)
-        {
             UpgradeBuyModeManager.Instance.OnBuyModeChanged -= UpdateUI;
-        }
     }
-    private double GetProfitAtLevel(int level)
-    {
-        return baseProfit * level * potionsMadePerRound * CharmManager.Instance.ProfitMultiplier;
-    }
+
     public string GetPotionName()
     {
         return potionName;
+    }
+
+    private double GetProfitAtLevel(int level)
+    {
+        return baseProfit *
+               level *
+               (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
+               CharmManager.Instance.ProfitMultiplier;
     }
 
     private int GetUpgradeAmount()
@@ -158,6 +164,7 @@ public class PotionRowUI : MonoBehaviour
 
         return totalCost;
     }
+
     public void IncreasePotionsMadePerRound()
     {
         potionsMadePerRound++;
@@ -178,25 +185,25 @@ public class PotionRowUI : MonoBehaviour
     public void UnlockPotion()
     {
         if (isUnlocked) return;
+        if (!CurrencyManager.Instance.CanAfford(unlockCost)) return;
 
-        if (CurrencyManager.Instance.CanAfford(unlockCost))
-        {
-            CurrencyManager.Instance.SpendCoins(unlockCost);
-            isUnlocked = true;
+        CurrencyManager.Instance.SpendCoins(unlockCost);
+        isUnlocked = true;
 
-            Debug.Log(potionName + " unlocked!");
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.TryCompleteTutorial(TutorialAction.UnlockPotion);
 
-            UpdateUI();
-        }
+        Debug.Log(potionName + " unlocked!");
+
+        UpdateUI();
     }
+
     public void StartProduction()
     {
         if (!isUnlocked) return;
 
         if (TutorialManager.Instance != null)
-        {
-            TutorialManager.Instance.HideTutorial();
-        }
+            TutorialManager.Instance.TryCompleteTutorial(TutorialAction.BrewPotion);
 
         if (!isProducing)
         {
@@ -211,14 +218,13 @@ public class PotionRowUI : MonoBehaviour
         float timer = 0f;
 
         float modifiedProductionTime = productionTime /
-        (CharmManager.Instance.SpeedMultiplier *
-         apprenticeSpeedMultiplier *
-         CharmManager.Instance.ApprenticeSpeedMultiplier);
+            (CharmManager.Instance.SpeedMultiplier *
+             apprenticeSpeedMultiplier *
+             CharmManager.Instance.ApprenticeSpeedMultiplier);
 
         while (timer < modifiedProductionTime)
         {
             timer += Time.deltaTime;
-
 
             timerSlider.value = timer / modifiedProductionTime;
             timerText.text = timer.ToString("F1") + " / " + modifiedProductionTime.ToString("F1") + "s";
@@ -229,7 +235,6 @@ public class PotionRowUI : MonoBehaviour
         double earnedAmount = CharmManager.Instance.ApplyChaosBonus(CurrentProfit);
 
         CurrencyManager.Instance.AddCoins(earnedAmount);
-        CurrencyManager.Instance.AddCoins(earnedAmount);
         SpawnFloatingMoney(earnedAmount);
 
         if (!hasShownFirstEarningsTutorial && potionName == "Basic Brew")
@@ -238,7 +243,8 @@ public class PotionRowUI : MonoBehaviour
 
             TutorialManager.Instance.ShowTutorial(
                 "Each brew earns coins. Use them to upgrade your potions.",
-                upgradeButton.GetComponent<RectTransform>()
+                upgradeButton.GetComponent<RectTransform>(),
+                TutorialAction.UpgradePotion
             );
         }
 
@@ -249,6 +255,7 @@ public class PotionRowUI : MonoBehaviour
 
         UpdateUI();
     }
+
     private void SpawnFloatingMoney(double amount)
     {
         if (floatingMoneyPrefab == null || floatingMoneySpawnPoint == null)
@@ -261,14 +268,13 @@ public class PotionRowUI : MonoBehaviour
             floatingMoneySpawnPoint.position + randomOffset,
             Quaternion.identity,
             floatingMoneySpawnPoint.parent
-                );
+        );
 
         floatingText.Setup(amount);
     }
+
     public void UpgradePotion()
     {
-        SoundManager.Instance.PlaySound(SoundType.Upgrade);
-
         if (!isUnlocked) return;
 
         int upgradeAmount = GetUpgradeAmount();
@@ -279,14 +285,14 @@ public class PotionRowUI : MonoBehaviour
 
         if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
 
+        SoundManager.Instance.PlaySound(SoundType.Upgrade);
+
         CurrencyManager.Instance.SpendCoins(totalCost);
 
-        if (TutorialManager.Instance != null)
-        {
-            TutorialManager.Instance.HideTutorial();
-        }
-
         potionLevel += upgradeAmount;
+
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.TryCompleteTutorial(TutorialAction.UpgradePotion);
 
         UpdateUI();
     }
@@ -301,17 +307,22 @@ public class PotionRowUI : MonoBehaviour
     {
         potionNameText.text = potionName;
         profitText.text = "Makes: " + NumberFormatter.FormatMoney(CurrentProfit);
+
         amountMadeText.text = "Potions: " +
-    (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus);
+            (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus);
+
         levelText.text = "Level " + potionLevel;
-        upgradeCostText.text = "Upgrade\n$" + CurrentUpgradeCost.ToString("F0");
-        apprenticeText.text = hasApprentice ? "Apprentice\nAssigned" : "No\nApprentice";
-        lockedOverlay.SetActive(!isUnlocked);
+
+        apprenticeText.text = hasApprentice
+            ? "Apprentice\nAssigned"
+            : "No\nApprentice";
+
+        if (lockedOverlay != null)
+            lockedOverlay.SetActive(!isUnlocked);
 
         if (unlockCostText != null)
-        {
             unlockCostText.text = "Locked\n" + NumberFormatter.FormatMoney(unlockCost);
-        }
+
         int upgradeAmount = GetUpgradeAmount();
         double bulkCost = GetBulkUpgradeCost(upgradeAmount);
 
@@ -324,9 +335,7 @@ public class PotionRowUI : MonoBehaviour
             else
             {
                 double previewProfit = GetProfitAtLevel(potionLevel + upgradeAmount);
-
-                upgradePreviewText.text =
-                    "> " + NumberFormatter.FormatMoney(previewProfit);
+                upgradePreviewText.text = "> " + NumberFormatter.FormatMoney(previewProfit);
             }
         }
 
@@ -347,6 +356,18 @@ public class PotionRowUI : MonoBehaviour
                 ? new Color(0.6f, 1f, 0.6f)
                 : new Color(0.6f, 0.6f, 0.6f);
 
-        // pulseButton.SetPulse(canUpgrade && canAfford);
+        if (!hasShownUnlockPotionTutorial &&
+            !isUnlocked &&
+            potionName == "Healing Potion" &&
+            CurrencyManager.Instance.CanAfford(unlockCost))
+        {
+            hasShownUnlockPotionTutorial = true;
+
+            TutorialManager.Instance.ShowTutorial(
+                "Unlock new potions for bigger profits.",
+                GetComponent<RectTransform>(),
+                TutorialAction.UnlockPotion
+            );
+        }
     }
 }
