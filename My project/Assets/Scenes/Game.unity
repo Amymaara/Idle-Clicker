@@ -6672,7 +6672,7 @@ PrefabInstance:
       objectReference: {fileID: -1370661682523340017, guid: f65f1e031e4b0cf4296435fcb41362e7, type: 3}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: cost
-      value: 0
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 2543284339175854073, guid: a0b71eaab844162489fb3f7f3fcfa9ac, type: 3}
       propertyPath: charmName
