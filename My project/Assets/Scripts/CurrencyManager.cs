@@ -32,6 +32,14 @@ public class CurrencyManager : MonoBehaviour
     public void AddCoins(double amount)
     {
         currentCoins += amount;
+        if (AchievementManager.Instance != null)
+        {
+            AchievementManager.Instance.CheckAchievement("coins_1k", currentCoins);
+            AchievementManager.Instance.CheckAchievement("coins_10k", currentCoins);
+            AchievementManager.Instance.CheckAchievement("coins_100k", currentCoins);
+            AchievementManager.Instance.CheckAchievement("coins_1m", currentCoins);
+        }
+
         UpdateCoinUI();
     }
 

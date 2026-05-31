@@ -62,7 +62,8 @@ public class PotionRowUI : MonoBehaviour
      potionLevel *
      Mathf.Pow(1.015f, potionLevel - 1) *
      (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
-     CharmManager.Instance.ProfitMultiplier;
+     CharmManager.Instance.ProfitMultiplier *
+     (AchievementManager.Instance != null ? AchievementManager.Instance.ProfitBonus : 1f);
 
     private void Awake()
     {
@@ -233,10 +234,12 @@ public class PotionRowUI : MonoBehaviour
         float timer = 0f;
 
         float modifiedProductionTime = productionTime /
-      (CharmManager.Instance.SpeedMultiplier *
-       apprenticeSpeedMultiplier *
-       apprenticeTrainingSpeedMultiplier *
-       CharmManager.Instance.ApprenticeSpeedMultiplier);
+    (CharmManager.Instance.SpeedMultiplier *
+     apprenticeSpeedMultiplier *
+     apprenticeTrainingSpeedMultiplier *
+     CharmManager.Instance.ApprenticeSpeedMultiplier *
+     (AchievementManager.Instance != null ? AchievementManager.Instance.SpeedBonus : 1f) *
+     (AchievementManager.Instance != null ? AchievementManager.Instance.ApprenticeSpeedBonus : 1f));
 
         while (timer < modifiedProductionTime)
         {
@@ -254,6 +257,9 @@ public class PotionRowUI : MonoBehaviour
 
         CurrencyManager.Instance.AddCoins(earnedAmount);
         SpawnFloatingMoney(earnedAmount);
+
+        AchievementManager.Instance?.AddProgress("brew_100", 1);
+        AchievementManager.Instance?.CheckAchievement("first_brew", 1);
 
         if (!hasShownFirstEarningsTutorial && potionName == "Basic Brew")
         {
@@ -308,6 +314,11 @@ public class PotionRowUI : MonoBehaviour
         CurrencyManager.Instance.SpendCoins(totalCost);
 
         potionLevel += upgradeAmount;
+
+        AchievementManager.Instance?.CheckAchievement("first_upgrade", 1);
+        AchievementManager.Instance?.CheckAchievement("potion_level_25", potionLevel);
+        AchievementManager.Instance?.CheckAchievement("potion_level_50", potionLevel);
+        AchievementManager.Instance?.CheckAchievement("potion_level_100", potionLevel);
 
         if (TutorialManager.Instance != null)
             TutorialManager.Instance.TryCompleteTutorial(TutorialAction.UpgradePotion);

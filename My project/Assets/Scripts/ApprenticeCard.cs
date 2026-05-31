@@ -169,6 +169,8 @@ public class ApprenticeCard : MonoBehaviour
                 break;
         }
 
+        AchievementManager.Instance?.CheckAchievement("first_training", 1);
+
         ApplyTrainingBonuses();
 
         SoundManager.Instance.PlaySound(SoundType.Upgrade);
@@ -217,6 +219,8 @@ public class ApprenticeCard : MonoBehaviour
             apprenticeLevel = 1;
             targetPotion.SetApprenticeAssigned(true);
             upgradeAmount--; // first purchase used
+
+            AchievementManager.Instance?.CheckAchievement("first_apprentice", 1);
         }
 
         apprenticeLevel += upgradeAmount;
