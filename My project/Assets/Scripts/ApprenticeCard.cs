@@ -25,6 +25,7 @@ public class ApprenticeCard : MonoBehaviour
     [SerializeField] private TMP_Text buyButtonText;
     [SerializeField] private Button buyButton;
     [SerializeField] private TMP_Text upgradePreviewText;
+    [SerializeField] private TMP_Text stat3Text;
 
 
     [Header("Tutorial")]
@@ -40,6 +41,30 @@ public class ApprenticeCard : MonoBehaviour
     private bool hasShownApprenticeTutorial = false;
     [SerializeField] private bool canTriggerApprenticeUpgradeTutorial = false;
     private bool hasShownApprenticeUpgradeTutorial = false;
+
+    public string ApprenticeName => apprenticeName;
+
+    [SerializeField] private Button trainingButton;
+
+    private int speedTrainingLevel = 0;
+    private int profitTrainingLevel = 0;
+
+    [SerializeField] private double trainingBaseCost = 5000;
+    [SerializeField] private float trainingCostScaling = 2f;
+    [SerializeField] private int apprenticeLevelsPerMasteryPoint = 5;
+    [SerializeField] private int maxMasteryPoints = 10;
+    private int batchTrainingLevel = 0;
+
+    private int spentMasteryPoints = 0;
+
+    private float TrainingSpeedMultiplier =>
+    1f + (speedTrainingLevel * 0.10f);
+
+    private float TotalSpeedMultiplier =>
+        SpeedMultiplier * TrainingSpeedMultiplier;
+
+    private double TrainingProfitMultiplier =>
+    1 + (profitTrainingLevel * 0.10f);
 
     private double CurrentCost => baseCost * Mathf.Pow(costScaling, apprenticeLevel);
 
@@ -59,6 +84,9 @@ public class ApprenticeCard : MonoBehaviour
         CurrencyManager.Instance.OnCurrencyChanged += UpdateUI;
         ApprenticeBuyModeManager.Instance.OnBuyModeChanged += UpdateUI;
 
+        if (trainingButton != null)
+            trainingButton.onClick.AddListener(OpenTrainingPopup);
+
         buyButton.onClick.AddListener(BuyOrUpgradeApprentice);
 
         UpdateUI();
@@ -71,6 +99,89 @@ public class ApprenticeCard : MonoBehaviour
 
         if (ApprenticeBuyModeManager.Instance != null)
             ApprenticeBuyModeManager.Instance.OnBuyModeChanged -= UpdateUI;
+    }
+
+    public int TotalMasteryPoints
+    {
+        get
+        {
+            if (apprenticeLevel <= 0) return 0;
+
+            int points = apprenticeLevel / apprenticeLevelsPerMasteryPoint;
+            return Mathf.Clamp(points, 0, maxMasteryPoints);
+        }
+    }
+
+    public int AvailableMasteryPoints =>
+        TotalMasteryPoints - spentMasteryPoints;
+
+    public int GetTrainingCost(ApprenticeTrainingType type)
+    {
+        return 1;
+    }
+
+    private void OpenTrainingPopup()
+    {
+        Debug.Log("Training button clicked");
+
+        if (ApprenticeTrainingPopup.Instance == null)
+        {
+            Debug.LogError("Popup instance missing");
+            return;
+        }
+
+        ApprenticeTrainingPopup.Instance.OpenPopup(this);
+    }
+
+    public int GetTrainingLevel(ApprenticeTrainingType type)
+    {
+        return type switch
+        {
+            ApprenticeTrainingType.Speed => speedTrainingLevel,
+            ApprenticeTrainingType.Profit => profitTrainingLevel,
+            ApprenticeTrainingType.Batch => batchTrainingLevel,
+            _ => 0
+        };
+    }
+
+
+    public void BuyTrainingUpgrade(ApprenticeTrainingType type)
+    {
+        int cost = GetTrainingCost(type);
+
+        if (AvailableMasteryPoints < cost) return;
+
+        spentMasteryPoints += cost;
+
+        switch (type)
+        {
+            case ApprenticeTrainingType.Speed:
+                speedTrainingLevel++;
+                break;
+
+            case ApprenticeTrainingType.Profit:
+                profitTrainingLevel++;
+                break;
+
+            case ApprenticeTrainingType.Batch:
+                batchTrainingLevel++;
+                targetPotion.IncreasePotionsMadePerRound();
+                break;
+        }
+
+        ApplyTrainingBonuses();
+
+        SoundManager.Instance.PlaySound(SoundType.Upgrade);
+        UpdateUI();
+    }
+
+    private void ApplyTrainingBonuses()
+    {
+        float speedMultiplier = TrainingSpeedMultiplier;
+        double profitMultiplier = 1 + (profitTrainingLevel * 0.10f);
+
+        targetPotion.SetApprenticeTrainingSpeedMultiplier(speedMultiplier);
+        targetPotion.SetApprenticeTrainingProfitMultiplier(profitMultiplier);
     }
     private float GetSpeedAtLevel(int level)
     {
@@ -215,7 +326,10 @@ public class ApprenticeCard : MonoBehaviour
         stat1IncreaseText.text = apprenticeLevel == 0 ? "Off" : "On";
 
         stat2Text.text = "Speed";
-        stat2IncreaseText.text = "x" + SpeedMultiplier.ToString("F1");
+        stat2IncreaseText.text = "x" + TotalSpeedMultiplier.ToString("F1");
+
+        stat3Text.text = "Profit x" + TrainingProfitMultiplier.ToString("F1");
+
 
         if (!potionUnlocked)
         {
@@ -238,8 +352,8 @@ public class ApprenticeCard : MonoBehaviour
             }
             else
             {
-                float currentSpeed = GetSpeedAtLevel(apprenticeLevel);
-                float previewSpeed = GetSpeedAtLevel(apprenticeLevel + upgradeAmount);
+                float currentSpeed = GetSpeedAtLevel(apprenticeLevel) * TrainingSpeedMultiplier;
+                float previewSpeed = GetSpeedAtLevel(apprenticeLevel + upgradeAmount) * TrainingSpeedMultiplier;
 
                 upgradePreviewText.text =
                     "> x" + previewSpeed.ToString("F1");

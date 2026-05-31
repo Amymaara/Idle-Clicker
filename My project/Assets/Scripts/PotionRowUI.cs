@@ -51,6 +51,8 @@ public class PotionRowUI : MonoBehaviour
     private bool isProducing = false;
     private bool hasApprentice = false;
     private float apprenticeSpeedMultiplier = 1f;
+    private float apprenticeTrainingSpeedMultiplier = 1f;
+    private double apprenticeTrainingProfitMultiplier = 1;
 
     private bool hasShownFirstEarningsTutorial = false;
     private bool hasShownUnlockPotionTutorial = false;
@@ -101,6 +103,15 @@ public class PotionRowUI : MonoBehaviour
 
         if (UpgradeBuyModeManager.Instance != null)
             UpgradeBuyModeManager.Instance.OnBuyModeChanged -= UpdateUI;
+    }
+    public void SetApprenticeTrainingSpeedMultiplier(float multiplier)
+    {
+        apprenticeTrainingSpeedMultiplier = multiplier;
+    }
+
+    public void SetApprenticeTrainingProfitMultiplier(double multiplier)
+    {
+        apprenticeTrainingProfitMultiplier = multiplier;
     }
 
     public string GetPotionName()
@@ -222,9 +233,10 @@ public class PotionRowUI : MonoBehaviour
         float timer = 0f;
 
         float modifiedProductionTime = productionTime /
-            (CharmManager.Instance.SpeedMultiplier *
-             apprenticeSpeedMultiplier *
-             CharmManager.Instance.ApprenticeSpeedMultiplier);
+      (CharmManager.Instance.SpeedMultiplier *
+       apprenticeSpeedMultiplier *
+       apprenticeTrainingSpeedMultiplier *
+       CharmManager.Instance.ApprenticeSpeedMultiplier);
 
         while (timer < modifiedProductionTime)
         {
@@ -236,7 +248,9 @@ public class PotionRowUI : MonoBehaviour
             yield return null;
         }
 
-        double earnedAmount = CharmManager.Instance.ApplyChaosBonus(CurrentProfit);
+        double earnedAmount = CharmManager.Instance.ApplyChaosBonus(
+    CurrentProfit * apprenticeTrainingProfitMultiplier
+);
 
         CurrencyManager.Instance.AddCoins(earnedAmount);
         SpawnFloatingMoney(earnedAmount);
