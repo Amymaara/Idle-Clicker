@@ -1014,9 +1014,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db37cce2d41ab64daddfbbe84b15f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenEventRolls: 5
-  eventChance: 1
-  eventDuration: 10
+  timeBetweenEventRolls: 90
+  eventChance: 0.25
+  eventDuration: 60
   eventBanner: {fileID: 1585185414}
   titleText: {fileID: 1435910883}
   effectText: {fileID: 1372645770}
@@ -6164,6 +6164,7 @@ MonoBehaviour:
   essenceGainText: {fileID: 399235699}
   totalEssenceText: {fileID: 105655456}
   ascendButton: {fileID: 708435304}
+  prestigeTabButtonTarget: {fileID: 386973893}
   profitBonusText: {fileID: 457056559}
   speedBonusText: {fileID: 948795751}
   apprenticeBonusText: {fileID: 1304466739}

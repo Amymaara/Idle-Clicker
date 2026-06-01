@@ -17,6 +17,7 @@ public enum TutorialAction
     OpenUpgradePanel,
     BuyMilestoneUpgrade,
     OpenBuyMode,
+    OpenPrestigeTab,
 }
 
 public class TutorialManager : MonoBehaviour
@@ -43,6 +44,9 @@ public class TutorialManager : MonoBehaviour
     public bool IsTutorialShowing { get; private set; }
     private TutorialAction requiredAction = TutorialAction.None;
     public bool HasCompletedOpenCharmTab { get; private set; }
+
+    public bool HasCompletedPrestigeTutorial { get; private set; }
+
     private void Awake()
     {
         Instance = this;
@@ -66,6 +70,11 @@ public class TutorialManager : MonoBehaviour
     public void CompleteOpenCharmTab()
     {
         HasCompletedOpenCharmTab = true;
+    }
+
+    public void CancelCurrentTutorial()
+    {
+        HideTutorial();
     }
 
     public void CompleteFirstBrew()
@@ -128,5 +137,10 @@ public class TutorialManager : MonoBehaviour
         highlightBox.sizeDelta = target.rect.size + highlightPadding;
 
         arrowImage.position = targetWorldPos + (Vector3)arrowOffset;
+    }
+
+    public void CompletePrestigeTutorial()
+    {
+        HasCompletedPrestigeTutorial = true;
     }
 }

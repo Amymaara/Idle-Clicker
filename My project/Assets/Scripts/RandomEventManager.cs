@@ -23,6 +23,8 @@ public class RandomEventManager : MonoBehaviour
     public float ProductionSpeedMultiplier { get; private set; } = 1f;
     public float ApprenticeSpeedMultiplier { get; private set; } = 1f;
 
+    private bool hasShownEventTutorial = false;
+
     private float rollTimer;
     private float eventTimer;
     private bool eventActive = false;
@@ -79,6 +81,17 @@ public class RandomEventManager : MonoBehaviour
 
         UpdateBannerText();
         ShowBanner();
+
+        if (!hasShownEventTutorial)
+        {
+            hasShownEventTutorial = true;
+
+            TutorialManager.Instance.ShowInfoTutorial(
+                "Random Event! Events can temporarily boost or hinder your workshop.",
+                eventBanner.GetComponent<RectTransform>(),
+                5f
+            );
+        }
 
         Debug.Log("Random Event Started: " + activeEventType);
     }

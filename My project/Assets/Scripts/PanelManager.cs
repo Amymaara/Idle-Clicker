@@ -43,6 +43,9 @@ public class PanelManager : MonoBehaviour
 
     public void ShowMain()
     {
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.CancelCurrentTutorial();
+
         ShowPanel(mainPanel);
         HidePanel(upgradePanel);
         HidePanel(apprenticePanel);
@@ -53,6 +56,9 @@ public class PanelManager : MonoBehaviour
 
     public void ShowUpgrade()
     {
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.CancelCurrentTutorial();
+
         HidePanel(mainPanel);
         ShowPanel(upgradePanel);
         HidePanel(apprenticePanel);
@@ -68,6 +74,9 @@ public class PanelManager : MonoBehaviour
 
     public void ShowApprentice()
     {
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.CancelCurrentTutorial();
+
         HidePanel(mainPanel);
         HidePanel(upgradePanel);
         ShowPanel(apprenticePanel);
@@ -94,6 +103,9 @@ public class PanelManager : MonoBehaviour
 
     public void ShowCharms()
     {
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.CancelCurrentTutorial();
+
         HidePanel(mainPanel);
         HidePanel(upgradePanel);
         HidePanel(apprenticePanel);
@@ -109,6 +121,9 @@ public class PanelManager : MonoBehaviour
 
     public void ShowPrestige()
     {
+        if (TutorialManager.Instance != null)
+            TutorialManager.Instance.CancelCurrentTutorial();
+
         HidePanel(mainPanel);
         HidePanel(upgradePanel);
         HidePanel(apprenticePanel);

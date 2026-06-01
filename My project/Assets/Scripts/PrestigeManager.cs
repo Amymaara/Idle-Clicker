@@ -16,6 +16,7 @@ public class PrestigeManager : MonoBehaviour
     [SerializeField] private TMP_Text essenceGainText;
     [SerializeField] private TMP_Text totalEssenceText;
     [SerializeField] private Button ascendButton;
+    [SerializeField] private RectTransform prestigeTabButtonTarget;
 
     [Header("Permanent Bonus UI")]
     [SerializeField] private TMP_Text profitBonusText;
@@ -179,6 +180,19 @@ public class PrestigeManager : MonoBehaviour
 
         if (batchBonusText != null)
             batchBonusText.text = "Global Batch: +" + duplicationLevel;
+
+        if (GetCurrentTier() >= 1 &&
+    TutorialManager.Instance != null &&
+    !TutorialManager.Instance.HasCompletedPrestigeTutorial)
+        {
+            TutorialManager.Instance.CompletePrestigeTutorial();
+
+            TutorialManager.Instance.ShowTutorial(
+                "Prestige Unlocked! You can now restart your progress to earn Prestige Essence. Prestige Essence is used to purchase permanent upgrades.",
+                prestigeTabButtonTarget,
+                TutorialAction.OpenPrestigeTab
+            );
+        }
     }
 
     private void ResetRun()
