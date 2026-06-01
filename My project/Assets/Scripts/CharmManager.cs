@@ -109,6 +109,14 @@ public class CharmManager : MonoBehaviour
         }
     }
 
+    public void ResetForPrestige()
+    {
+        unlockedSlots = 0;
+        activeCharms.Clear();
+
+        RecalculateEffects();
+    }
+
     public double ApplyChaosBonus(double amount)
     {
         if (!ChaosActive) return amount;

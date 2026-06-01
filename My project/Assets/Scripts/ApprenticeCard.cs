@@ -144,7 +144,28 @@ public class ApprenticeCard : MonoBehaviour
         };
     }
 
+    public void ResetForPrestige()
+    {
+        apprenticeLevel = 0;
 
+        speedTrainingLevel = 0;
+        profitTrainingLevel = 0;
+        batchTrainingLevel = 0;
+        spentMasteryPoints = 0;
+
+        hasShownApprenticeTutorial = false;
+        hasShownApprenticeUpgradeTutorial = false;
+
+        if (targetPotion != null)
+        {
+            targetPotion.SetApprenticeAssigned(false);
+            targetPotion.SetApprenticeSpeedMultiplier(1f);
+            targetPotion.SetApprenticeTrainingSpeedMultiplier(1f);
+            targetPotion.SetApprenticeTrainingProfitMultiplier(1);
+        }
+
+        UpdateUI();
+    }
     public void BuyTrainingUpgrade(ApprenticeTrainingType type)
     {
         int cost = GetTrainingCost(type);

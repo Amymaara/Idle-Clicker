@@ -14,6 +14,7 @@ public class PanelManager : MonoBehaviour
     [SerializeField] private CharmTutorialController charmTutorialController;
     [SerializeField] private UpgradeMilestoneController upgradeMilestoneTutorialController;
     [SerializeField] private BuyModeTutorialController buyModeTutorialController;
+    [SerializeField] private CanvasGroup prestigePanel;
     private bool hasShownBuyApprenticeTutorial = false;
 
 
@@ -46,6 +47,8 @@ public class PanelManager : MonoBehaviour
         HidePanel(upgradePanel);
         HidePanel(apprenticePanel);
         HidePanel(charmPanel);
+        HidePanel(prestigePanel);
+
     }
 
     public void ShowUpgrade()
@@ -54,6 +57,8 @@ public class PanelManager : MonoBehaviour
         ShowPanel(upgradePanel);
         HidePanel(apprenticePanel);
         HidePanel(charmPanel);
+        HidePanel(prestigePanel);
+
 
         if (upgradeMilestoneTutorialController != null)
         {
@@ -67,6 +72,8 @@ public class PanelManager : MonoBehaviour
         HidePanel(upgradePanel);
         ShowPanel(apprenticePanel);
         HidePanel(charmPanel);
+        HidePanel(prestigePanel);
+
 
         Button apprenticeButton =
     basicApprenticeBuyButtonTarget.GetComponent<Button>();
@@ -91,11 +98,22 @@ public class PanelManager : MonoBehaviour
         HidePanel(upgradePanel);
         HidePanel(apprenticePanel);
         ShowPanel(charmPanel);
+        HidePanel(prestigePanel);
+
 
         if (charmTutorialController != null)
         {
             charmTutorialController.OnCharmsTabOpened();
         }
+    }
+
+    public void ShowPrestige()
+    {
+        HidePanel(mainPanel);
+        HidePanel(upgradePanel);
+        HidePanel(apprenticePanel);
+        HidePanel(charmPanel);
+        ShowPanel(prestigePanel);
     }
 
     private void ShowPanel(CanvasGroup panel)

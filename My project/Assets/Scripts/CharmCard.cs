@@ -63,6 +63,18 @@ public class CharmCard : MonoBehaviour
             CurrencyManager.Instance.OnCurrencyChanged -= UpdateUI;
     }
 
+    public void ResetForPrestige()
+    {
+        isBought = false;
+
+        if (CharmManager.Instance != null && CharmManager.Instance.IsCharmActive(this))
+        {
+            CharmManager.Instance.RemoveCharm(this);
+        }
+
+        UpdateUI();
+    }
+
     public void BuyCharm()
     {
         if (isBought) return;

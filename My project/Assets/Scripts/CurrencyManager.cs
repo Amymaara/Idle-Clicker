@@ -13,6 +13,10 @@ public class CurrencyManager : MonoBehaviour
 
     public event Action OnCurrencyChanged;
 
+    private double lifetimeCoinsEarned = 0;
+
+    public double LifetimeCoinsEarned => lifetimeCoinsEarned;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -32,6 +36,7 @@ public class CurrencyManager : MonoBehaviour
     public void AddCoins(double amount)
     {
         currentCoins += amount;
+        lifetimeCoinsEarned += amount;
         if (AchievementManager.Instance != null)
         {
             AchievementManager.Instance.CheckAchievement("coins_1k", currentCoins);
@@ -40,6 +45,12 @@ public class CurrencyManager : MonoBehaviour
             AchievementManager.Instance.CheckAchievement("coins_1m", currentCoins);
         }
 
+        UpdateCoinUI();
+    }
+
+    public void ResetCurrentRunCurrency()
+    {
+        currentCoins = startingCoins;
         UpdateCoinUI();
     }
 

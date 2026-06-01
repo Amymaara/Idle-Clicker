@@ -109,6 +109,21 @@ public class AchievementManager : MonoBehaviour
         }
     }
 
+    public void ResetForPrestige()
+    {
+        ProfitBonus = 1f;
+        SpeedBonus = 1f;
+        ApprenticeSpeedBonus = 1f;
+
+        foreach (AchievementData achievement in achievements)
+        {
+            achievement.unlocked = false;
+        }
+
+        SelectNextGoal();
+        UpdateGoalUI();
+    }
+
     private void UpdateGoalUI()
     {
         if (currentGoal == null)

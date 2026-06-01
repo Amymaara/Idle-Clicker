@@ -57,6 +57,12 @@ public class PotionMilestonUpgrade : MonoBehaviour
         }
     }
 
+    public void ResetForPrestige()
+    {
+        upgradesPurchased = 0;
+        UpdateUI();
+    }
+
     public void BuyUpgrade()
     {
         if (targetPotion == null) return;

@@ -61,9 +61,11 @@ public class PotionRowUI : MonoBehaviour
      baseProfit *
      potionLevel *
      Mathf.Pow(1.015f, potionLevel - 1) *
-     (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus) *
+     (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus +
+      (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentBatchBonus : 0)) *
      CharmManager.Instance.ProfitMultiplier *
-     (AchievementManager.Instance != null ? AchievementManager.Instance.ProfitBonus : 1f);
+     (AchievementManager.Instance != null ? AchievementManager.Instance.ProfitBonus : 1f) *
+     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentProfitMultiplier : 1f);
 
     private void Awake()
     {
@@ -239,7 +241,9 @@ public class PotionRowUI : MonoBehaviour
      apprenticeTrainingSpeedMultiplier *
      CharmManager.Instance.ApprenticeSpeedMultiplier *
      (AchievementManager.Instance != null ? AchievementManager.Instance.SpeedBonus : 1f) *
-     (AchievementManager.Instance != null ? AchievementManager.Instance.ApprenticeSpeedBonus : 1f));
+     (AchievementManager.Instance != null ? AchievementManager.Instance.ApprenticeSpeedBonus : 1f) *
+     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentSpeedMultiplier : 1f) *
+     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentApprenticeSpeedMultiplier : 1f));
 
         while (timer < modifiedProductionTime)
         {
@@ -280,6 +284,28 @@ public class PotionRowUI : MonoBehaviour
         UpdateUI();
     }
 
+    public void ResetForPrestige()
+    {
+        StopAllCoroutines();
+
+        isProducing = false;
+        potionLevel = 1;
+        isUnlocked = startsUnlocked;
+        hasApprentice = false;
+        apprenticeSpeedMultiplier = 1f;
+        apprenticeTrainingSpeedMultiplier = 1f;
+        apprenticeTrainingProfitMultiplier = 1;
+        potionsMadePerRound = 1;
+
+        if (timerSlider != null)
+            timerSlider.value = 0;
+
+        if (timerText != null)
+            timerText.text = productionTime.ToString("F1") + "s";
+
+        UpdateUI();
+    }
+
     private void SpawnFloatingMoney(double amount)
     {
         if (floatingMoneyPrefab == null || floatingMoneySpawnPoint == null)
@@ -306,7 +332,7 @@ public class PotionRowUI : MonoBehaviour
         if (upgradeAmount <= 0) return;
 
         double totalCost = GetBulkUpgradeCost(upgradeAmount);
-        
+
         if (!CurrencyManager.Instance.CanAfford(totalCost)) return;
 
         SoundManager.Instance.PlaySound(SoundType.Upgrade);
@@ -338,7 +364,9 @@ public class PotionRowUI : MonoBehaviour
         profitText.text = "Makes: " + NumberFormatter.FormatMoney(CurrentProfit);
 
         amountMadeText.text = "Potions: " +
-            (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus);
+    (potionsMadePerRound +
+     CharmManager.Instance.GlobalPotionBonus +
+     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentBatchBonus : 0));
 
         levelText.text = "Level " + potionLevel;
 
