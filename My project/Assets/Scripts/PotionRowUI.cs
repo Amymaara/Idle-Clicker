@@ -58,14 +58,17 @@ public class PotionRowUI : MonoBehaviour
     private bool hasShownUnlockPotionTutorial = false;
 
     private double CurrentProfit =>
-     baseProfit *
-     potionLevel *
-     Mathf.Pow(1.015f, potionLevel - 1) *
-     (potionsMadePerRound + CharmManager.Instance.GlobalPotionBonus +
-      (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentBatchBonus : 0)) *
-     CharmManager.Instance.ProfitMultiplier *
-     (AchievementManager.Instance != null ? AchievementManager.Instance.ProfitBonus : 1f) *
-     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentProfitMultiplier : 1f);
+    baseProfit *
+    potionLevel *
+    Mathf.Pow(1.015f, potionLevel - 1) *
+    (potionsMadePerRound +
+     CharmManager.Instance.GlobalPotionBonus +
+     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentBatchBonus : 0)) *
+    CharmManager.Instance.ProfitMultiplier *
+    (AchievementManager.Instance != null ? AchievementManager.Instance.ProfitBonus : 1f) *
+    (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentProfitMultiplier : 1f) *
+    (RandomEventManager.Instance != null ? RandomEventManager.Instance.ProfitMultiplier : 1f);
+
 
     private void Awake()
     {
@@ -243,7 +246,9 @@ public class PotionRowUI : MonoBehaviour
      (AchievementManager.Instance != null ? AchievementManager.Instance.SpeedBonus : 1f) *
      (AchievementManager.Instance != null ? AchievementManager.Instance.ApprenticeSpeedBonus : 1f) *
      (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentSpeedMultiplier : 1f) *
-     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentApprenticeSpeedMultiplier : 1f));
+     (PrestigeManager.Instance != null ? PrestigeManager.Instance.PermanentApprenticeSpeedMultiplier : 1f) *
+     (RandomEventManager.Instance != null ? RandomEventManager.Instance.ProductionSpeedMultiplier : 1f) *
+     (RandomEventManager.Instance != null ? RandomEventManager.Instance.ApprenticeSpeedMultiplier : 1f));
 
         while (timer < modifiedProductionTime)
         {
